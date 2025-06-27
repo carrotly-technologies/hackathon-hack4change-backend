@@ -14,6 +14,7 @@ import { Module } from "@nestjs/common";
         secretKey: minioConfig.getMinioSecretKey(),
         useSSL: minioConfig.isMinioUseSSL(),
         publicUrl: minioConfig.getMinioPublicUrl(),
+        region: minioConfig.getMinioRegion(),
       }),
     }),
   ],

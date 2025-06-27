@@ -25,10 +25,15 @@ export class ExampleResolver {
 
   @Query(() => String)
   minioTest() {
-    return this.minioService.sign({
-      bucketName: "h4c",
+    // return this.minioService.sign({
+    //   bucketName: "hack4change-54a3ca",
+    //   objectName: "test.txt",
+    //   expiresAfterSeconds: 3000,
+    // });
+
+    return this.minioService.url({
+      bucketName: "hack4change-54a3ca",
       objectName: "test.txt",
-      expiresAfterSeconds: 3000,
     });
   }
 

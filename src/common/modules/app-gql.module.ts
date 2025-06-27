@@ -38,7 +38,7 @@ export class AppGqlModule {
       costLimitPlugin({
         maxCost: 5000,
         depthCostFactor: 1.5,
-        ignoreIntrospection: false,
+        ignoreIntrospection: true,
       }),
       maxTokensPlugin({ n: 5000 }),
       maxDepthPlugin({ n: 10 }),

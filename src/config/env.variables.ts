@@ -1,4 +1,4 @@
-import { plainToClass, Transform } from 'class-transformer';
+import { plainToClass, Transform } from "class-transformer";
 import {
   IsBoolean,
   IsEnum,
@@ -6,24 +6,24 @@ import {
   IsNotEmpty,
   IsString,
   validateSync,
-} from 'class-validator';
+} from "class-validator";
 
 export enum Environment {
-  Local = 'local',
-  Dev = 'dev',
-  Production = 'production',
-  Test = 'test',
+  Local = "local",
+  Dev = "dev",
+  Production = "production",
+  Test = "test",
 }
 
 export class EnvironmentVariables {
   @IsString()
-  APP_NAME = 'NMG API';
+  APP_NAME = "NMG API";
 
   @IsString()
-  API_VERSION = '1';
+  API_VERSION = "1";
 
   @IsNotEmpty()
-  CORS_ORIGIN = '*';
+  CORS_ORIGIN = "*";
 
   @IsEnum(Environment)
   ENV: Environment = Environment.Local;
@@ -33,7 +33,7 @@ export class EnvironmentVariables {
   PORT = 3000;
 
   @IsBoolean()
-  @Transform(({ value }) => value === 'true' || value === 1 || value === '1')
+  @Transform(({ value }) => value === "true" || value === 1 || value === "1")
   DEBUG = false;
 
   @IsString()
@@ -41,12 +41,16 @@ export class EnvironmentVariables {
   DATABASE_URI!: string;
 
   @IsBoolean()
-  @Transform(({ value }) => value === 'true' || value === 1 || value === '1')
+  @Transform(({ value }) => value === "true" || value === 1 || value === "1")
   ENABLE_PLAYGROUND = true;
 
   @IsBoolean()
-  @Transform(({ value }) => value === 'true' || value === 1 || value === '1')
+  @Transform(({ value }) => value === "true" || value === 1 || value === "1")
   ENABLE_INTROSPECTION = true;
+
+  @IsString()
+  @IsNotEmpty()
+  MINIO_REGION = "eu-central-1";
 
   @IsString()
   @IsNotEmpty()
@@ -65,7 +69,7 @@ export class EnvironmentVariables {
   MINIO_SECRET_KEY!: string;
 
   @IsBoolean()
-  @Transform(({ value }) => value === 'true' || value === 1 || value === '1')
+  @Transform(({ value }) => value === "true" || value === 1 || value === "1")
   MINIO_USE_SSL = false;
 
   @IsString()

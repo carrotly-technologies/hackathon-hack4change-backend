@@ -5,7 +5,11 @@ import { EnvironmentVariables } from "./env.variables";
 
 @Injectable()
 export class MinioConfig {
-  constructor(private readonly config: ConfigService<EnvironmentVariables>) {}
+  constructor(private readonly config: ConfigService<EnvironmentVariables>) { }
+
+  getMinioRegion(): string {
+    return this.config.get<string>("MINIO_REGION") ?? "eu-central-1";
+  }
 
   getMinioEndpoint(): string {
     return this.config.get<string>("MINIO_ENDPOINT") ?? "localhost";

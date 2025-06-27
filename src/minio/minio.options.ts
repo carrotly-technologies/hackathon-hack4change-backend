@@ -9,6 +9,7 @@ import {
 
 export interface MinioOptions {
   global?: boolean;
+  region: string;
   endpoint: string;
   port: number;
   accessKey: string;

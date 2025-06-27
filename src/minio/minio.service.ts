@@ -33,6 +33,7 @@ export class MinioService {
       accessKey: this.options.accessKey,
       secretKey: this.options.secretKey,
       useSSL: this.options.useSSL,
+      region: this.options.region
     });
   }
 
@@ -54,11 +55,11 @@ export class MinioService {
     return true;
   }
 
-  async get(args: GetArgs) {
+  get(args: GetArgs) {
     return this.minio.getObject(args.bucketName, args.objectName);
   }
 
-  async list(args: ListArgs) {
+  list(args: ListArgs) {
     return this.minio.listObjects(
       args.bucketName,
       args.prefix,
@@ -95,12 +96,7 @@ export class MinioService {
       expiresAfterSeconds,
     );
 
-    return this.options.publicUrl
-      ? signed.replace(
-          /^http[s]?:\/\/.*?\//,
-          this.options.publicUrl.replace(/\/$/, "") + "/",
-        )
-      : signed;
+    return signed;
   }
 
   url(args: UrlArgs) {
@@ -113,12 +109,7 @@ export class MinioService {
 
     const url = `${protocol}://${host}${port}/${args.bucketName}/${args.objectName}`;
 
-    return this.options.publicUrl
-      ? url.replace(
-          /^http[s]?:\/\/.*?\//,
-          this.options.publicUrl.replace(/\/$/, "") + "/",
-        )
-      : url;
+    return url;
   }
 
   async checkConnection(timeoutAfterSeconds: number = THIRTY_SECONDS) {
