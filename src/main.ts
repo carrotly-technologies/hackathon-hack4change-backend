@@ -26,10 +26,6 @@ export async function createApp(enableLogger = true) {
 
   app.enableCors();
 
-  // TODO: replace me with @nestjs/throttler
-  // read docs: https://docs.nestjs.com/security/rate-limiting#graphql
-  //            https://docs.nestjs.com/security/rate-limiting
-  // app.use(rateLimit(serverConfig.getRateLimitConfig()));
   app.setGlobalPrefix('api');
 
   registerEnums();
@@ -61,3 +57,5 @@ async function generateSchema() {
 process.argv.includes('generate-schema')
   ? void generateSchema()
   : void bootstrap();
+
+//

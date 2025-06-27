@@ -1,0 +1,4 @@
+export const MINIO_OPTIONS_TOKEN = "MINIO_OPTIONS";
+
+export const THIRTY_SECONDS = 30;
+export const FIFTEEN_MINUTES_IN_SECONDS = 15 * 60;

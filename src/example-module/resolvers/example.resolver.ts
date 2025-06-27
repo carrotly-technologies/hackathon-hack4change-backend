@@ -2,22 +2,35 @@ import {
   INPUT_KEY,
   INPUT_PAGINATION,
   INPUT_SORT,
-} from '@app/common/common.constraints';
-import { PaginationInput } from '@app/common/inputs/pagination.input';
-import { Success } from '@app/common/responses/success.response';
-import { ExampleCreateInput } from '@app/example-module/inputs/example-create.input';
-import { ExampleFindManySortInput } from '@app/example-module/inputs/example-find-many-sort.input';
-import { ExampleFindManyInput } from '@app/example-module/inputs/example-find-many.input';
-import { ExampleUpdateInput } from '@app/example-module/inputs/example-update.input';
-import { ExampleInput } from '@app/example-module/inputs/example.input';
-import { ExampleObject } from '@app/example-module/objects/example.object';
-import { ExamplePaginationResponse } from '@app/example-module/responses/example-pagination.response';
-import { ExampleService } from '@app/example-module/services/example.service';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+} from "@app/common/common.constraints";
+import { PaginationInput } from "@app/common/inputs/pagination.input";
+import { Success } from "@app/common/responses/success.response";
+import { ExampleCreateInput } from "@app/example-module/inputs/example-create.input";
+import { ExampleFindManySortInput } from "@app/example-module/inputs/example-find-many-sort.input";
+import { ExampleFindManyInput } from "@app/example-module/inputs/example-find-many.input";
+import { ExampleUpdateInput } from "@app/example-module/inputs/example-update.input";
+import { ExampleInput } from "@app/example-module/inputs/example.input";
+import { ExampleObject } from "@app/example-module/objects/example.object";
+import { ExamplePaginationResponse } from "@app/example-module/responses/example-pagination.response";
+import { ExampleService } from "@app/example-module/services/example.service";
+import { MinioService } from "@app/minio/minio.service";
+import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 
 @Resolver(() => ExampleObject)
 export class ExampleResolver {
-  constructor(private readonly exampleService: ExampleService) {}
+  constructor(
+    private readonly exampleService: ExampleService,
+    private readonly minioService: MinioService,
+  ) { }
+
+  @Query(() => String)
+  minioTest() {
+    return this.minioService.sign({
+      bucketName: "h4c",
+      objectName: "test.txt",
+      expiresAfterSeconds: 3000,
+    });
+  }
 
   @Query(() => ExampleObject)
   async example(@Args(INPUT_KEY) input: ExampleInput) {

@@ -47,6 +47,30 @@ export class EnvironmentVariables {
   @IsBoolean()
   @Transform(({ value }) => value === 'true' || value === 1 || value === '1')
   ENABLE_INTROSPECTION = true;
+
+  @IsString()
+  @IsNotEmpty()
+  MINIO_ENDPOINT!: string;
+
+  @IsInt()
+  @Transform(({ value }) => +value)
+  MINIO_PORT = 9000;
+
+  @IsString()
+  @IsNotEmpty()
+  MINIO_ACCESS_KEY!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  MINIO_SECRET_KEY!: string;
+
+  @IsBoolean()
+  @Transform(({ value }) => value === 'true' || value === 1 || value === '1')
+  MINIO_USE_SSL = false;
+
+  @IsString()
+  @IsNotEmpty()
+  MINIO_PUBLIC_URL!: string;
 }
 
 export function validate(config: Record<string, unknown>) {

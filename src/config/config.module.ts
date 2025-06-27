@@ -4,6 +4,7 @@ import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import { DatabaseConfig } from './database.config';
 import { validate } from './env.variables';
 import { ServerConfig } from './server.config';
+import { MinioConfig } from '@app/config/minio.config';
 
 @Global()
 @Module({
@@ -12,7 +13,7 @@ import { ServerConfig } from './server.config';
       validate,
     }),
   ],
-  providers: [ServerConfig, DatabaseConfig],
-  exports: [ServerConfig, DatabaseConfig],
+  providers: [ServerConfig, DatabaseConfig, MinioConfig],
+  exports: [ServerConfig, DatabaseConfig, MinioConfig],
 })
-export class AppConfigModule {}
+export class AppConfigModule { }
