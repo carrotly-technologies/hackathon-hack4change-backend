@@ -1,48 +1,75 @@
-import { Module } from '@nestjs/common';
-import { ApolloServerPlugin } from '@apollo/server';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver } from '@nestjs/apollo';
-import { GraphQLArmorConfig } from '@escape.tech/graphql-armor-types';
-import { ApolloArmor } from '@escape.tech/graphql-armor';
-import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
-import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { formatError } from '@app/utils/formatError';
-import { ServerConfig } from '@app/config/server.config';
-import { AppConfigModule } from '@app/config/config.module';
+import * as path from "node:path";
+import { ServerConfig } from "@app/config/server.config";
+import { GraphiQLOptions } from "graphql-yoga";
+import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
+import { costLimitPlugin } from "@escape.tech/graphql-armor-cost-limit";
+import { maxAliasesPlugin } from "@escape.tech/graphql-armor-max-aliases";
+import { maxDepthPlugin } from "@escape.tech/graphql-armor-max-depth";
+import { maxDirectivesPlugin } from "@escape.tech/graphql-armor-max-directives";
+import { maxTokensPlugin } from "@escape.tech/graphql-armor-max-tokens";
+import { YogaDriver, YogaDriverConfig } from "@graphql-yoga/nestjs";
+import { Module } from "@nestjs/common";
+import { GraphQLModule } from "@nestjs/graphql";
+import { Environment } from "@app/config/env.variables";
+import { GraphQLFile } from "@app/common/scalars/file.scalar";
 
 @Module({
   imports: [
-    AppConfigModule,
-    GraphQLModule.forRootAsync({
-      imports: [AppConfigModule],
-      driver: ApolloDriver,
-      useFactory: (serverConfig: ServerConfig) => {
-        const apolloArmorConfig: GraphQLArmorConfig = {
-          // CWE-400 https://cwe.mitre.org/data/definitions/400.html
-          maxAliases: { n: 25, allowList: [] },
-          maxDepth: { n: 20 },
-          costLimit: { depthCostFactor: 1.2, maxCost: 6000 },
-        };
-
-        // reference: https://escape.tech/graphql-armor/docs/getting-started
-        const protection = new ApolloArmor(apolloArmorConfig).protect();
-        const plugins = [
-          ...protection.plugins,
-          serverConfig.getEnablePlayground()
-            ? ApolloServerPluginLandingPageLocalDefault()
-            : ApolloServerPluginLandingPageDisabled(),
-        ] as ApolloServerPlugin[];
-
-        return {
-          autoSchemaFile: 'schema.gql',
-          formatError,
-          introspection: serverConfig.getEnableIntrospection(),
-          playground: false,
-          plugins,
-        };
-      },
+    GraphQLModule.forRootAsync<YogaDriverConfig>({
+      driver: YogaDriver,
       inject: [ServerConfig],
+      useFactory: (serverConfig: ServerConfig) => ({
+        debug: true,
+        graphiql: true,
+        renderGraphiQL: AppGqlModule.playground(),
+        plugins: AppGqlModule.plugins(serverConfig),
+        sortSchema: true,
+        autoSchemaFile: {
+          path: path.join(process.cwd(), "graphql", "schema.graphql"),
+        },
+      }),
     }),
   ],
+  providers: [GraphQLFile],
 })
-export class AppGqlModule {}
+export class AppGqlModule {
+  static plugins(serverConfig: ServerConfig) {
+    const plugins = [
+      costLimitPlugin({
+        maxCost: 5000,
+        depthCostFactor: 1.5,
+        ignoreIntrospection: false,
+      }),
+      maxTokensPlugin({ n: 5000 }),
+      maxDepthPlugin({ n: 10 }),
+      maxDirectivesPlugin({ n: 50 }),
+      maxAliasesPlugin({ n: 50 }),
+    ];
+
+    if (serverConfig.getEnv() === Environment.Production) {
+      /** @todo: Add cache to the plugins, for the production environment */
+      plugins.push();
+    }
+
+    return plugins;
+  }
+
+  static playground(): YogaDriverConfig["renderGraphiQL"] {
+    return async (_?: GraphiQLOptions): Promise<string> => {
+      const apollo = ApolloServerPluginLandingPageLocalDefault();
+      if (apollo.serverWillStart === undefined) return "";
+
+      const render = await apollo.serverWillStart(
+        {} as Parameters<typeof apollo.serverWillStart>[0],
+      );
+      if (!render || render.renderLandingPage === undefined) return "";
+
+      const landingPage = await render.renderLandingPage();
+      if (!landingPage) return "";
+
+      return typeof landingPage.html === "function"
+        ? await landingPage.html()
+        : landingPage.html;
+    };
+  }
+}
