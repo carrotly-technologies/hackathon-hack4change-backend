@@ -1,5 +1,7 @@
 import { Injectable } from "@nestjs/common";
+import { Types } from "mongoose";
 import { UserRepository } from "@app/user/repositories/user.repository";
+import { AwardService } from "@app/awards/services/award.service";
 import { UserCreateInput } from "@app/user/inputs/user-create.input";
 import { UserUpdateInput } from "@app/user/inputs/user-update.input";
 import { UserFindManyInput } from "@app/user/inputs/user-find-many.input";
@@ -10,14 +12,31 @@ import { UserPaginationResponse } from "@app/user/responses/user-pagination.resp
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly awardService: AwardService,
+  ) {}
 
   async create(input: UserCreateInput): Promise<UserObject> {
     const existingUser = await this.userRepository.findByEmail(input.email);
     if (existingUser) {
       throw new Error("User with this email already exists");
     }
-    const user = await this.userRepository.create(input);
+
+    // Validate award IDs if provided
+    if (input.awardIds && input.awardIds.length > 0) {
+      await this.validateAwardIds(input.awardIds);
+    }
+
+    // Convert string IDs to ObjectIds
+    const userData = {
+      ...input,
+      awardIds: input.awardIds
+        ? input.awardIds.map((id) => new Types.ObjectId(id))
+        : [],
+    };
+
+    const user = await this.userRepository.create(userData);
     return new UserObject(user);
   }
 
@@ -46,12 +65,35 @@ export class UserService {
         throw new Error("User with this email already exists");
       }
     }
-    const user = await this.userRepository.update(input.id, input);
+
+    // Validate award IDs if provided
+    if (input.awardIds && input.awardIds.length > 0) {
+      await this.validateAwardIds(input.awardIds);
+    }
+
+    // Convert string IDs to ObjectIds
+    const updateData = {
+      ...input,
+      awardIds: input.awardIds
+        ? input.awardIds.map((id) => new Types.ObjectId(id))
+        : undefined,
+    };
+
+    const user = await this.userRepository.update(input.id, updateData);
     return user ? new UserObject(user) : null;
   }
 
   async delete(id: string): Promise<UserObject | null> {
     const user = await this.userRepository.delete(id);
     return user ? new UserObject(user) : null;
+  }
+
+  private async validateAwardIds(awardIds: string[]): Promise<void> {
+    for (const awardId of awardIds) {
+      const award = await this.awardService.findById(awardId);
+      if (!award) {
+        throw new Error(`Award with ID ${awardId} does not exist`);
+      }
+    }
   }
 }

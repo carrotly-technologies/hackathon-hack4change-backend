@@ -2,18 +2,9 @@ import { Field, InputType } from "@nestjs/graphql";
 import { SortInput } from "@app/common/inputs/sort.input";
 
 @InputType()
-export class UserFindManySortInput {
+export class AwardFindManySortInput {
   @Field(() => SortInput, { nullable: true })
-  email?: SortInput;
-
-  @Field(() => SortInput, { nullable: true })
-  firstname?: SortInput;
-
-  @Field(() => SortInput, { nullable: true })
-  lastname?: SortInput;
-
-  @Field(() => SortInput, { nullable: true })
-  points?: SortInput;
+  iconUrl?: SortInput;
 
   @Field(() => SortInput, { nullable: true })
   createdAt?: SortInput;

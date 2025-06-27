@@ -10,4 +10,7 @@ export class UserFindManyInput {
 
   @Field(() => String, { nullable: true })
   lastname?: string;
+
+  @Field(() => Number, { nullable: true })
+  points?: number;
 }

@@ -17,4 +17,10 @@ export class UserUpdateInput {
 
   @Field(() => String, { nullable: true })
   avatarUrl?: string;
+
+  @Field(() => Number, { nullable: true })
+  points?: number;
+
+  @Field(() => [GraphQLObjectID], { nullable: true })
+  awardIds?: string[];
 }

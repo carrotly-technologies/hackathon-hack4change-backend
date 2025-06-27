@@ -1,4 +1,5 @@
 import { Field, InputType } from "@nestjs/graphql";
+import { GraphQLObjectID } from "graphql-scalars";
 
 @InputType()
 export class UserCreateInput {
@@ -13,4 +14,10 @@ export class UserCreateInput {
 
   @Field(() => String, { nullable: true })
   avatarUrl?: string;
+
+  @Field(() => Number, { defaultValue: 0 })
+  points?: number;
+
+  @Field(() => [GraphQLObjectID], { nullable: true })
+  awardIds?: string[];
 }

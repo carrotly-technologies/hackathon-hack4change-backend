@@ -11,6 +11,7 @@ import { AppDbModule } from "@app/common/modules/app-db.module";
 import { AppMongoModelsModule } from "@app/common/modules/app-mongo-models.module";
 import { ExampleModule } from "@app/example-module/example.module";
 import { UserModule } from "@app/user/user.module";
+import { AwardModule } from "@app/awards/award.module";
 
 const commonModules = [
   AppConfigModule,
@@ -20,7 +21,7 @@ const commonModules = [
 ];
 
 @Module({
-  imports: [...commonModules, ExampleModule, UserModule],
+  imports: [...commonModules, ExampleModule, UserModule, AwardModule],
   providers: [
     AppResolver,
     {
