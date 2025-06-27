@@ -1,0 +1,15 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Service Layer Implementation Guidelines
+globs: "**/*.service.ts"
+alwaysApply: true
+---
+- Services handle business logic only, not database operations
+- Call repository methods for data access, never directly access the database
+- Services should be stateless and focused on specific business operations
+- Handle domain-specific errors with appropriate business exceptions
+@service-template.ts

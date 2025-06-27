@@ -1,0 +1,25 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- Start by writing a test that describes the expected behavior of the function or class you're implementing. This test should focus on one specific behavior and be easy to implement.
+- Prepare the test state (e.g., mock data, objects, input values).
+- Call the function or method you want to test.
+- Verify the result matches the expected outcome.
+- Isolate components by using mocks and stubs to test only the unit in question.
+- Use tools like `jest.fn()` to mock external dependencies (e.g., services, repositories) and test isolated components.
+- Each test should focus on a single function or method, testing only one specific behavior.
+- Focus tests on the behavior of the application, not the implementation details.
+- Avoid testing internal details (like data structures or algorithms) and instead focus on the external behavior and expected outputs.
+- Write tests that initially fail, implement the functionality to make them pass, and refactor the code if necessary.
+- Test not only the "happy path" but also edge cases and error scenarios.
+- Write tests for invalid data, empty inputs, exceptions, and other edge cases.
+- For unit tests, mock external services (databases, APIs) to avoid dependency on external systems.
+- Unit tests should be fast and isolated from external systems, ensuring that tests are reliable and independent of external factors.
+- Mock external services using tools like Jest’s `jest.mock()` to simulate interactions with services like databases or third-party APIs.
