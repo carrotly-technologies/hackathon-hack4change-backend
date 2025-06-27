@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { Types } from "mongoose";
 import { UserRepository } from "@app/user/repositories/user.repository";
 import { AwardService } from "@app/awards/services/award.service";
+import { ChallengeService } from "@app/challenges/services/challenge.service";
 import { UserCreateInput } from "@app/user/inputs/user-create.input";
 import { UserUpdateInput } from "@app/user/inputs/user-update.input";
 import { UserFindManyInput } from "@app/user/inputs/user-find-many.input";
@@ -15,6 +16,7 @@ export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly awardService: AwardService,
+    private readonly challengeService: ChallengeService,
   ) {}
 
   async create(input: UserCreateInput): Promise<UserObject> {
@@ -28,11 +30,19 @@ export class UserService {
       await this.validateAwardIds(input.awardIds);
     }
 
+    // Validate challenge IDs if provided
+    if (input.challengeIds && input.challengeIds.length > 0) {
+      await this.validateChallengeIds(input.challengeIds);
+    }
+
     // Convert string IDs to ObjectIds
     const userData = {
       ...input,
       awardIds: input.awardIds
         ? input.awardIds.map((id) => new Types.ObjectId(id))
+        : [],
+      challengeIds: input.challengeIds
+        ? input.challengeIds.map((id) => new Types.ObjectId(id))
         : [],
     };
 
@@ -71,11 +81,19 @@ export class UserService {
       await this.validateAwardIds(input.awardIds);
     }
 
+    // Validate challenge IDs if provided
+    if (input.challengeIds && input.challengeIds.length > 0) {
+      await this.validateChallengeIds(input.challengeIds);
+    }
+
     // Convert string IDs to ObjectIds
     const updateData = {
       ...input,
       awardIds: input.awardIds
         ? input.awardIds.map((id) => new Types.ObjectId(id))
+        : undefined,
+      challengeIds: input.challengeIds
+        ? input.challengeIds.map((id) => new Types.ObjectId(id))
         : undefined,
     };
 
@@ -93,6 +111,15 @@ export class UserService {
       const award = await this.awardService.findById(awardId);
       if (!award) {
         throw new Error(`Award with ID ${awardId} does not exist`);
+      }
+    }
+  }
+
+  private async validateChallengeIds(challengeIds: string[]): Promise<void> {
+    for (const challengeId of challengeIds) {
+      const challenge = await this.challengeService.findById(challengeId);
+      if (!challenge) {
+        throw new Error(`Challenge with ID ${challengeId} does not exist`);
       }
     }
   }

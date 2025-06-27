@@ -37,6 +37,54 @@ input AwardUpdateInput {
   id: ObjectID!
 }
 
+input ChallengeCreateInput {
+  description: String!
+  iconUrl: String!
+  points: Float!
+  topic: String!
+}
+
+input ChallengeFindManyInput {
+  description: String
+  points: Float
+  topic: String
+}
+
+input ChallengeFindManySortInput {
+  createdAt: SortInput
+  description: SortInput
+  points: SortInput
+  topic: SortInput
+  updatedAt: SortInput
+}
+
+input ChallengeInput {
+  id: ObjectID!
+}
+
+type ChallengeObject {
+  createdAt: DateTime!
+  description: String!
+  iconUrl: String!
+  id: ObjectID!
+  points: Float!
+  topic: String!
+  updatedAt: DateTime!
+}
+
+type ChallengePaginationResponse {
+  data: [ChallengeObject!]!
+  metadata: PaginationMetadata!
+}
+
+input ChallengeUpdateInput {
+  description: String
+  iconUrl: String
+  id: ObjectID!
+  points: Float
+  topic: String
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -103,6 +151,9 @@ type Mutation {
   awardCreate(input: AwardCreateInput!): AwardObject!
   awardDelete(input: AwardInput!): AwardObject
   awardUpdate(input: AwardUpdateInput!): AwardObject
+  challengeCreate(input: ChallengeCreateInput!): ChallengeObject!
+  challengeDelete(input: ChallengeInput!): ChallengeObject
+  challengeUpdate(input: ChallengeUpdateInput!): ChallengeObject
   exampleCreate(input: ExampleCreateInput!): ExampleObject!
   exampleDelete(input: ExampleInput!): Success!
   exampleUpdate(input: ExampleUpdateInput!): ExampleObject!
@@ -132,6 +183,8 @@ type PaginationMetadata {
 type Query {
   award(input: AwardInput!): AwardObject
   awards(input: AwardFindManyInput!, pagination: PaginationInput!, sort: AwardFindManySortInput!): AwardPaginationResponse!
+  challenge(input: ChallengeInput!): ChallengeObject
+  challenges(input: ChallengeFindManyInput!, pagination: PaginationInput!, sort: ChallengeFindManySortInput!): ChallengePaginationResponse!
   errors: [Error!]!
   example(input: ExampleInput!): ExampleObject!
   examples(input: ExampleFindManyInput!, pagination: PaginationInput!, sort: ExampleFindManySortInput!): ExamplePaginationResponse!
@@ -156,6 +209,7 @@ type Success {
 input UserCreateInput {
   avatarUrl: String
   awardIds: [ObjectID!]
+  challengeIds: [ObjectID!]
   email: String!
   firstname: String!
   lastname: String!
@@ -186,6 +240,8 @@ type UserObject {
   avatarUrl: String
   awardIds: [ObjectID!]!
   awards: [AwardObject!]!
+  challengeIds: [ObjectID!]!
+  challenges: [ChallengeObject!]!
   createdAt: DateTime!
   email: String!
   firstname: String!

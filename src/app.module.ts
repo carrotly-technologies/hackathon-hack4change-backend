@@ -13,6 +13,7 @@ import { ExampleModule } from "@app/example-module/example.module";
 import { AppMinioModule } from "@app/common/modules/app-minio.module";
 import { UserModule } from "@app/user/user.module";
 import { AwardModule } from "@app/awards/award.module";
+import { ChallengeModule } from "@app/challenges/challenge.module";
 
 const commonModules = [
   AppConfigModule,
@@ -23,7 +24,13 @@ const commonModules = [
 ];
 
 @Module({
-  imports: [...commonModules, ExampleModule, UserModule, AwardModule],
+  imports: [
+    ...commonModules,
+    ExampleModule,
+    UserModule,
+    AwardModule,
+    ChallengeModule,
+  ],
   providers: [
     AppResolver,
     {

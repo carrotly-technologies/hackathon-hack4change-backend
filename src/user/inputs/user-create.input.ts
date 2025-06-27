@@ -20,4 +20,7 @@ export class UserCreateInput {
 
   @Field(() => [GraphQLObjectID], { nullable: true })
   awardIds?: string[];
+
+  @Field(() => [GraphQLObjectID], { nullable: true })
+  challengeIds?: string[];
 }
