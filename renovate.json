@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "local>renovate/bot:default.json5",
+    "local>renovate/rules/foregamer:default.json5"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": "pip_setup",
+      "rangeStrategy": "replace"
+    }
+  ]
+}
