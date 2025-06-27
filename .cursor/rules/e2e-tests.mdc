@@ -1,0 +1,24 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: 
+globs: 
+alwaysApply: false
+---
+- Write tests that follow the real-life flow of the application, such as creating users, making API requests, or handling data submissions.
+- Use a separate environment for E2E tests, distinct from your production or development environments.
+- Configure a dedicated testing database, separate API URLs, and environment-specific settings that will only be used during E2E testing.
+- E2E tests should cover the full workflow, from start to finish, including multiple service calls and database interactions.
+- Create tests that involve making API requests to various endpoints, processing data through your business logic, and verifying that the results are stored or returned correctly.
+- Avoid mocking external dependencies in E2E tests unless it is absolutely necessary.
+- Only mock external services (e.g., payment gateways, email services) if those services are too complex or slow to integrate in your testing environment.
+- Test invalid user inputs, network timeouts, database errors, and other exceptional cases to ensure the application responds correctly (e.g., returning proper HTTP error codes, logging errors).
+- Ensure the environment is reset to a clean state before each test run.
+- Use tools like database seeding and cleaning scripts, or configure NestJS to reset the database between tests.
+- Always verify the HTTP status codes, headers, and response bodies in E2E tests.
+- Test various HTTP status codes (e.g., 200, 400, 404, 500), and validate that the response body matches the expected format (e.g., JSON schema validation).
+- Write clear and concise E2E test code to improve readability and maintainability.
+- Use meaningful variable names, organize tests into clear `describe` blocks, and avoid unnecessary complexity.

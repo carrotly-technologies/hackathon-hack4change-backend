@@ -1,0 +1,30 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Module Structure Guidelines
+globs: "**/*.module.ts"
+alwaysApply: true
+---
+- Organize module files in a consistent structure:
+  ```
+  src/
+  └── entity/
+      ├── inputs/
+      │   └── entity-*.input.ts
+      └── objects/
+      │   └── entity.object.ts
+      ├── errors/
+      │   ├── entity.errors.ts
+      │   └── entity-*.error.ts
+      ├── entity.module.ts
+      ├── entity.resolver.ts
+      ├── entity.service.ts
+      ├── entity.repository.ts
+      └── entity.schema.ts
+  ```
+- Each module must be self-contained with its own module definition, resolver, service, repository, and schema files
+- Follow proper dependency injection: Resolvers -> Services -> Repositories -> Models
+@module-template.ts

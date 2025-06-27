@@ -1,0 +1,15 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: File Naming Conventions
+globs: "**/*.ts"
+alwaysApply: true
+---
+- Use the module name as prefix and type as suffix (e.g., user.service.ts)
+- Example files for User module: user.module.ts, user.resolver.ts, user.service.ts, user.repository.ts, user.schema.ts
+- For GraphQL, use *.object.ts for output types and *.input.ts for input types
+- If multiple files share the same type, organize them in a dedicated folder (e.g., inputs/)
+@file-naming-template.ts

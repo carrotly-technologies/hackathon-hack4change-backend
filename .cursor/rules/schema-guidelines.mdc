@@ -1,0 +1,19 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: MongoDB Schema Implementation Guidelines
+globs: "**/*.schema.ts"
+alwaysApply: true
+---
+- Define schemas using the `@Schema()` decorator
+- Register schemas in `src/common/modules/app-mongo-models.module.ts`
+- Export schema types properly: 
+  ```ts
+  export type EntityDocument = Entity & Document;
+  export const EntitySchema = SchemaFactory.createForClass(Entity);
+  ```
+- Always add schemas to both imports and exports in the AppMongoModelsModule
+@schema-template.ts

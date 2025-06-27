@@ -1,0 +1,33 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: GraphQL Input Type Guidelines
+globs: "**/*.input.ts"
+alwaysApply: true
+---
+- Use `@InputType()` decorator for all GraphQL input types
+- Use appropriate GraphQL scalars, especially for MongoDB ObjectIDs:
+  ```ts
+  @Field(() => GraphQLObjectID)
+  id: string;
+  ```
+- Create specific input types for different operations (e.g., UserCreateInput, UserUpdateInput)
+- Use `graphql-scalars` for custom types instead of validation decorators
+@input-template.ts---
+description: GraphQL Input Type Guidelines
+globs: "**/*.input.ts"
+alwaysApply: true
+---
+- Use `@InputType()` decorator for all GraphQL input types
+- Use appropriate GraphQL scalars, especially for MongoDB ObjectIDs:
+  ```ts
+  @Field(() => GraphQLObjectID)
+  id: string;
+  ```
+- Create specific input types for different operations (e.g., UserCreateInput, UserUpdateInput)
+- Use `graphql-scalars` for custom types instead of validation decorators
+- If there is more than one input it should be put in `<entity>/inputs` directory
+@input-template.ts
