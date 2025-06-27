@@ -68,6 +68,7 @@ type Mutation {
   exampleCreate(input: ExampleCreateInput!): ExampleObject!
   exampleDelete(input: ExampleInput!): Success!
   exampleUpdate(input: ExampleUpdateInput!): ExampleObject!
+  userCreate(input: UserCreateInput!): UserObject!
 }
 
 """
@@ -109,6 +110,13 @@ input SortInput {
 
 type Success {
   success: Boolean!
+}
+
+input UserCreateInput {
+  avatarUrl: String
+  email: String!
+  firstname: String!
+  lastname: String!
 }
 
 input UserFindManyInput {
