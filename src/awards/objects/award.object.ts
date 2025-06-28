@@ -1,6 +1,6 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { GraphQLObjectID } from 'graphql-scalars';
-import { AwardDocument } from '@app/awards/schemas/award.schema';
+import { Field, ObjectType } from "@nestjs/graphql";
+import { GraphQLObjectID } from "graphql-scalars";
+import { AwardDocument } from "@app/awards/schemas/award.schema";
 
 @ObjectType()
 export class AwardObject {
@@ -12,6 +12,9 @@ export class AwardObject {
 
   @Field(() => String)
   iconUrl: string;
+
+  @Field(() => Number)
+  coin: number;
 
   @Field(() => Date)
   createdAt: Date;
@@ -27,4 +30,4 @@ export class AwardObject {
         : input),
     });
   }
-} 
+}

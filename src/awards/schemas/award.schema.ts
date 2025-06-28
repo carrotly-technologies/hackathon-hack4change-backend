@@ -13,6 +13,9 @@ export class Award {
   @Prop({ type: String, required: true })
   iconUrl: string;
 
+  @Prop({ type: Number, required: true, default: 0 })
+  coin: number;
+
   // TODO: Add challenge reference when challenge module is created
   // @Prop({ type: Types.ObjectId, ref: 'Challenge', required: true })
   // challengeId: Types.ObjectId;

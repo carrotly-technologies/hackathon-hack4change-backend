@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model, PipelineStage } from "mongoose";
+import { Model, PipelineStage, Types } from "mongoose";
 import { User, UserDocument } from "@app/user/schemas/user.schema";
 import { UserFindManyInput } from "@app/user/inputs/user-find-many.input";
 import { UserFindManySortInput } from "@app/user/inputs/user-find-many-sort.input";
@@ -64,6 +64,40 @@ export class UserRepository {
 
   async count(filter: Partial<User> = {}): Promise<number> {
     return this.userModel.countDocuments(filter).exec();
+  }
+
+  async addAwardToUser(
+    userId: string,
+    awardId: Types.ObjectId,
+    coinValue: number,
+  ): Promise<UserDocument | null> {
+    return this.userModel
+      .findByIdAndUpdate(
+        userId,
+        {
+          $addToSet: { awardIds: awardId },
+          $inc: { coin: coinValue },
+        },
+        { new: true },
+      )
+      .exec();
+  }
+
+  async addChallengeToUser(
+    userId: string,
+    challengeId: Types.ObjectId,
+    coinValue: number,
+  ): Promise<UserDocument | null> {
+    return this.userModel
+      .findByIdAndUpdate(
+        userId,
+        {
+          $addToSet: { challengeIds: challengeId },
+          $inc: { coin: coinValue },
+        },
+        { new: true },
+      )
+      .exec();
   }
 
   private serializeQuery(input: UserFindManyInput) {

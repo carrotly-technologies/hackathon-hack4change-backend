@@ -16,6 +16,9 @@ export class ChallengeObject {
   @Field(() => Number)
   points: number;
 
+  @Field(() => Number)
+  coin: number;
+
   @Field(() => String)
   iconUrl: string;
 

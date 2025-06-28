@@ -7,6 +7,8 @@ import { UserCreateInput } from "@app/user/inputs/user-create.input";
 import { UserUpdateInput } from "@app/user/inputs/user-update.input";
 import { UserFindManyInput } from "@app/user/inputs/user-find-many.input";
 import { UserFindManySortInput } from "@app/user/inputs/user-find-many-sort.input";
+import { UserAddAwardInput } from "@app/user/inputs/user-add-award.input";
+import { UserAddChallengeInput } from "@app/user/inputs/user-add-challenge.input";
 import { PaginationInput } from "@app/common/inputs/pagination.input";
 import { UserObject } from "@app/user/objects/user.object";
 import { UserPaginationResponse } from "@app/user/responses/user-pagination.response";
@@ -104,6 +106,66 @@ export class UserService {
   async delete(id: string): Promise<UserObject | null> {
     const user = await this.userRepository.delete(id);
     return user ? new UserObject(user) : null;
+  }
+
+  async addAwardToUser(input: UserAddAwardInput): Promise<UserObject> {
+    const user = await this.userRepository.findById(input.userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const award = await this.awardService.findById(input.awardId);
+    if (!award) {
+      throw new Error("Award not found");
+    }
+
+    // Check if user already has this award
+    if (user.awardIds.some((id) => id.toString() === input.awardId)) {
+      throw new Error("User already has this award");
+    }
+
+    // Add award to user and update coin balance
+    const updatedUser = await this.userRepository.addAwardToUser(
+      input.userId,
+      new Types.ObjectId(input.awardId),
+      award.coin,
+    );
+
+    if (!updatedUser) {
+      throw new Error("Failed to add award to user");
+    }
+
+    return new UserObject(updatedUser);
+  }
+
+  async addChallengeToUser(input: UserAddChallengeInput): Promise<UserObject> {
+    const user = await this.userRepository.findById(input.userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const challenge = await this.challengeService.findById(input.challengeId);
+    if (!challenge) {
+      throw new Error("Challenge not found");
+    }
+
+    // Check if user already has this challenge
+    if (user.challengeIds.some((id) => id.toString() === input.challengeId)) {
+      throw new Error("User already has this challenge");
+    }
+
+    // Add challenge to user and update coin balance
+    const updatedUser = await this.userRepository.addChallengeToUser(
+      input.userId,
+      new Types.ObjectId(input.challengeId),
+      challenge.coin,
+    );
+
+    if (!updatedUser) {
+      throw new Error("Failed to add challenge to user");
+    }
+
+    return new UserObject(updatedUser);
   }
 
   private async validateAwardIds(awardIds: string[]): Promise<void> {

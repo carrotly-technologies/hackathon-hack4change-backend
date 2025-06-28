@@ -19,6 +19,9 @@ export class User {
   @Prop({ type: String })
   avatarUrl?: string;
 
+  @Prop({ type: Number, default: 0 })
+  coin: number;
+
   @Prop({ type: [Types.ObjectId], ref: "Award", default: [] })
   awardIds: Types.ObjectId[];
 

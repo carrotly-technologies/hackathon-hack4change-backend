@@ -12,6 +12,8 @@ import {
 } from "@app/common/common.constraints";
 import { UserInput } from "@app/user/inputs/user.input";
 import { UserCreateInput } from "@app/user/inputs/user-create.input";
+import { UserAddAwardInput } from "@app/user/inputs/user-add-award.input";
+import { UserAddChallengeInput } from "@app/user/inputs/user-add-challenge.input";
 
 @Resolver(() => UserObject)
 export class UserResolver {
@@ -27,6 +29,20 @@ export class UserResolver {
     @Args(INPUT_KEY) input: UserCreateInput,
   ): Promise<UserObject> {
     return this.userService.create(input);
+  }
+
+  @Mutation(() => UserObject)
+  async userAddAward(
+    @Args(INPUT_KEY) input: UserAddAwardInput,
+  ): Promise<UserObject> {
+    return this.userService.addAwardToUser(input);
+  }
+
+  @Mutation(() => UserObject)
+  async userAddChallenge(
+    @Args(INPUT_KEY) input: UserAddChallengeInput,
+  ): Promise<UserObject> {
+    return this.userService.addChallengeToUser(input);
   }
 
   @Query(() => UserPaginationResponse)

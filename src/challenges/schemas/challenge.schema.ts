@@ -16,6 +16,9 @@ export class Challenge {
   @Prop({ type: Number, required: true })
   points: number;
 
+  @Prop({ type: Number, required: true, default: 0 })
+  coin: number;
+
   @Prop({ type: String, required: true })
   iconUrl: string;
 }
