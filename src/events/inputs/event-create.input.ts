@@ -16,6 +16,9 @@ export class EventCreateInput {
   @Field(() => String)
   imageUrl = "https://picsum.photos/64/64";
 
+  @Field(() => String, { nullable: true })
+  link?: string;
+
   @Field(() => EventType)
   eventType: EventType;
 

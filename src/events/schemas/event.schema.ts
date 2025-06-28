@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document, Types } from "mongoose";
-import { EventType } from '../enums/event-type.enum';
+import { EventType } from "../enums/event-type.enum";
 
 export type EventDocument = Event & Document;
 
@@ -23,8 +23,11 @@ export class Event {
   @Prop({ type: Date, required: true })
   date: Date;
 
-  @Prop({ type: String, default: 'https://picsum.photos/64/64' })
+  @Prop({ type: String, default: "https://picsum.photos/64/64" })
   imageUrl: string;
+
+  @Prop({ type: String, required: false })
+  link?: string;
 
   @Prop({ type: String, enum: Object.values(EventType), required: true })
   eventType: EventType;

@@ -1,7 +1,7 @@
-import { Field, Float, ObjectType } from '@nestjs/graphql';
-import { GraphQLObjectID } from 'graphql-scalars';
-import { EventDocument } from '@app/events/schemas/event.schema';
-import { EventType } from '@app/events/enums/event-type.enum';
+import { Field, Float, ObjectType } from "@nestjs/graphql";
+import { GraphQLObjectID } from "graphql-scalars";
+import { EventDocument } from "@app/events/schemas/event.schema";
+import { EventType } from "@app/events/enums/event-type.enum";
 
 @ObjectType()
 export class EventObject {
@@ -25,6 +25,9 @@ export class EventObject {
 
   @Field(() => String)
   imageUrl: string;
+
+  @Field(() => String, { nullable: true })
+  link?: string;
 
   @Field(() => EventType)
   eventType: EventType;
