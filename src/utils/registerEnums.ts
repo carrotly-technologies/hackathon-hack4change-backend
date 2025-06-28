@@ -9,6 +9,7 @@ import { ActivityType } from "@app/activity/enum/activity-type.enum";
 import { GraphqlActivityErrors } from "@app/activity/errors/graphql-activity-errors";
 import { GraphqlMarketplaceErrors } from "@app/marketplace/errors/graphql-marketplace-errors";
 import { ChallengeType } from "@app/challenges/enum/challenge-type.enum";
+import { EventType } from "@app/events/enums/event-type.enum";
 
 export const Errors = {
   ...GqlCommonErrors,
@@ -23,6 +24,7 @@ export const registerEnums = () => {
   registerEnumType(Sort, { name: "Sort" });
 
   registerEnumType(ExampleColor, { name: "ExampleColor" });
+  registerEnumType(EventType, { name: "EventType" });
   registerEnumType(ActivityType, { name: "ActivityType" });
   registerEnumType(ChallengeType, { name: "ChallengeType" });
 };

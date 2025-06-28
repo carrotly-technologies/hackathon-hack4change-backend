@@ -29,7 +29,7 @@ export class Event {
   @Prop({ type: String, required: false })
   link?: string;
 
-  @Prop({ type: String, enum: Object.values(EventType), required: true })
+  @Prop({ type: String, enum: EventType, required: true })
   eventType: EventType;
 
   @Prop([{ type: String }])

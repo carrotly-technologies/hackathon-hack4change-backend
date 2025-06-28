@@ -164,6 +164,7 @@ input ChallengeCreateInput {
   iconUrl: String!
   points: Float!
   topic: String!
+  type: ChallengeType!
 }
 
 input ChallengeFindManyInput {
@@ -192,6 +193,7 @@ type ChallengeObject {
   id: ObjectID!
   points: Float!
   topic: String!
+  type: ChallengeType!
   updatedAt: DateTime!
 }
 
@@ -210,12 +212,18 @@ input ChallengeStartInput {
   userId: ObjectID!
 }
 
+enum ChallengeType {
+  COMPANY
+  OWN
+}
+
 input ChallengeUpdateInput {
   description: String
   iconUrl: String
   id: ObjectID!
   points: Float
   topic: String
+  type: ChallengeType
 }
 
 input ChallengeUpdateProgressInput {
@@ -245,6 +253,7 @@ enum Error {
 input EventCreateInput {
   eventType: EventType!
   imageUrl: String! = "https://picsum.photos/64/64"
+  link: String
   localization: LocalizationInput!
   name: String!
   time: String!
@@ -286,6 +295,7 @@ type EventObject {
   eventType: EventType!
   id: ObjectID!
   imageUrl: String!
+  link: String
   localization: [Float!]!
   name: String!
   place: String!
@@ -299,16 +309,16 @@ type EventPaginationResponse {
   metadata: PaginationMetadata!
 }
 
-"""Type of the event, can be ECOLOGICAL or SOCIAL"""
 enum EventType {
-  ECOLOGICAL
-  SOCIAL
+  COMPANY
+  OWN
 }
 
 input EventUpdateInput {
   eventType: EventType
   id: String!
   imageIcon: String
+  link: String
   localization: LocalizationInput
   name: String
   time: String
