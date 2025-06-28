@@ -7,7 +7,10 @@ import {
   Parent,
 } from "@nestjs/graphql";
 import { ActivityService } from "@app/activity/services/activity.service";
-import { ActivityObject } from "@app/activity/objects/activity.object";
+import {
+  ActivityObject,
+  PathPointObject,
+} from "@app/activity/objects/activity.object";
 import { ActivityPaginationResponse } from "@app/activity/responses/activity-pagination.response";
 import { ActivityInput } from "@app/activity/inputs/activity.input";
 import { ActivityCreateInput } from "@app/activity/inputs/activity-create.input";
@@ -52,6 +55,11 @@ export class ActivityResolver {
     @Args("userId") userId: string,
   ): Promise<ActivityObject | null> {
     return this.activityService.findActiveByUserId(userId);
+  }
+
+  @Query(() => [PathPointObject])
+  async activitiesThrashMap() {
+    return await this.activityService.thrashMap();
   }
 
   @Query(() => ActivityPaginationResponse)

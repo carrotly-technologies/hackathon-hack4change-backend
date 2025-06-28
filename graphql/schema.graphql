@@ -431,6 +431,7 @@ input PathPointUpdateInput {
 
 type Query {
   activities(input: ActivityFindManyInput!, pagination: PaginationInput!, sort: ActivityFindManySortInput!): ActivityPaginationResponse!
+  activitiesThrashMap: [PathPointObject!]!
   activity(input: ActivityInput!): ActivityObject
   activityCurrentDuration(activityId: String!): Float
   activityStarted(userId: String!): ActivityObject

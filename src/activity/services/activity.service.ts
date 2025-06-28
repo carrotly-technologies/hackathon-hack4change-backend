@@ -5,7 +5,10 @@ import { ActivityUpdateInput } from "@app/activity/inputs/activity-update.input"
 import { ActivityFindManyInput } from "@app/activity/inputs/activity-find-many.input";
 import { ActivityFindManySortInput } from "@app/activity/inputs/activity-find-many-sort.input";
 import { PaginationInput } from "@app/common/inputs/pagination.input";
-import { ActivityObject } from "@app/activity/objects/activity.object";
+import {
+  ActivityObject,
+  PathPointObject,
+} from "@app/activity/objects/activity.object";
 import { ActivityPaginationResponse } from "@app/activity/responses/activity-pagination.response";
 import { ActivityStartInput } from "@app/activity/inputs/activity-start.input";
 import { ActivityEndInput } from "@app/activity/inputs/activity-end.input";
@@ -186,5 +189,9 @@ export class ActivityService {
     }
 
     return this.activityRepository.getCurrentDuration(activityId);
+  }
+
+  async thrashMap(): Promise<PathPointObject[]> {
+    return await this.activityRepository.thrashMap();
   }
 }

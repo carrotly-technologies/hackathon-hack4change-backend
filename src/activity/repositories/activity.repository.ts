@@ -10,6 +10,7 @@ import { ActivityUpdateInput } from "@app/activity/inputs/activity-update.input"
 import { ActivityFindManyInput } from "@app/activity/inputs/activity-find-many.input";
 import { ActivityFindManySortInput } from "@app/activity/inputs/activity-find-many-sort.input";
 import { PaginationInput } from "@app/common/inputs/pagination.input";
+import { PathPointObject } from "@app/activity/objects/activity.object";
 
 @Injectable()
 export class ActivityRepository {
@@ -291,5 +292,10 @@ export class ActivityRepository {
         totalPages,
       },
     };
+  }
+
+  async thrashMap(): Promise<PathPointObject[]> {
+    const result = await this.activityModel.find();
+    return result.map((activity) => activity.trashLocations).flat();
   }
 }
