@@ -1,17 +1,17 @@
 import { Args, Int, Query, Resolver } from "@nestjs/graphql";
 import { LeaderboardService } from "../services/leaderboard.service";
-import { UserObject } from "../../user/objects/user.object";
+import { LeaderboardEntryObject } from "../objects/leaderboard-entry.object";
 
-@Resolver(() => UserObject)
+@Resolver(() => LeaderboardEntryObject)
 export class LeaderboardResolver {
   constructor(private readonly leaderboardService: LeaderboardService) {}
 
-  @Query(() => [UserObject], {
-    description: "Get top 10 users by points",
+  @Query(() => [LeaderboardEntryObject], {
+    description: "Get top users by total points (activities + challenges)",
   })
   async leaderboard(
     @Args("limit", { type: () => Int, defaultValue: 10 }) limit: number,
-  ): Promise<UserObject[]> {
+  ): Promise<LeaderboardEntryObject[]> {
     return this.leaderboardService.getTopUsers(limit);
   }
 }

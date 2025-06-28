@@ -232,6 +232,18 @@ input ExampleUpdateInput {
 
 scalar File
 
+type LeaderboardEntryObject {
+  activityPoints: Float!
+  avatarUrl: String
+  challengePoints: Float!
+  email: String!
+  firstname: String!
+  id: ObjectID!
+  lastname: String!
+  rank: Float!
+  totalPoints: Float!
+}
+
 type Mutation {
   activityCreate(input: ActivityCreateInput!): ActivityObject!
   activityDelete(input: ActivityInput!): ActivityObject
@@ -294,8 +306,8 @@ type Query {
   example(input: ExampleInput!): ExampleObject!
   examples(input: ExampleFindManyInput!, pagination: PaginationInput!, sort: ExampleFindManySortInput!): ExamplePaginationResponse!
 
-  """Get top 10 users by points"""
-  leaderboard(limit: Int! = 10): [UserObject!]!
+  """Get top users by total points (activities + challenges)"""
+  leaderboard(limit: Int! = 10): [LeaderboardEntryObject!]!
   minioTest: String!
   user(input: UserInput!): UserObject
   users(input: UserFindManyInput!, pagination: PaginationInput!, sort: UserFindManySortInput!): UserPaginationResponse!

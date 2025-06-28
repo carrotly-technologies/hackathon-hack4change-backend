@@ -1,13 +1,19 @@
 import { Injectable } from "@nestjs/common";
 import { LeaderboardRepository } from "../repositories/leaderboard.repository";
-import { UserObject } from "../../user/objects/user.object";
+import { LeaderboardEntryObject } from "../objects/leaderboard-entry.object";
 
 @Injectable()
 export class LeaderboardService {
   constructor(private readonly leaderboardRepository: LeaderboardRepository) {}
 
-  async getTopUsers(limit = 10): Promise<UserObject[]> {
+  async getTopUsers(limit = 10): Promise<LeaderboardEntryObject[]> {
     const results = await this.leaderboardRepository.getTopUsers(limit);
-    return results.map((result) => new UserObject(result));
+    return results.map(
+      (result, index) =>
+        new LeaderboardEntryObject({
+          ...result,
+          rank: index + 1,
+        }),
+    );
   }
 }

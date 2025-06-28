@@ -5,6 +5,7 @@ import {
   Challenge,
   ChallengeSchema,
 } from "../challenges/schemas/challenge.schema";
+import { Activity, ActivitySchema } from "../activity/schemas/activity.schema";
 import { LeaderboardResolver } from "./resolvers/leaderboard.resolver";
 import { LeaderboardService } from "./services/leaderboard.service";
 import { LeaderboardRepository } from "./repositories/leaderboard.repository";
@@ -14,6 +15,7 @@ import { LeaderboardRepository } from "./repositories/leaderboard.repository";
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Challenge.name, schema: ChallengeSchema },
+      { name: Activity.name, schema: ActivitySchema },
     ]),
   ],
   providers: [LeaderboardResolver, LeaderboardService, LeaderboardRepository],
