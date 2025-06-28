@@ -13,6 +13,9 @@ interface PathPoint {
 export class Activity {
   _id!: Types.ObjectId;
 
+  @Prop({ type: Types.ObjectId, ref: "User", required: true })
+  userId: Types.ObjectId;
+
   @Prop({ type: Number, required: true })
   durationTime: number;
 

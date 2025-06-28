@@ -4,12 +4,14 @@ import { AwardObject } from "@app/awards/objects/award.object";
 import { ChallengeObject } from "@app/challenges/objects/challenge.object";
 import { AwardService } from "@app/awards/services/award.service";
 import { ChallengeService } from "@app/challenges/services/challenge.service";
+import { ActivityService } from "@app/activity/services/activity.service";
 
 @Resolver(() => UserObject)
 export class UserObjectResolver {
   constructor(
     private readonly awardService: AwardService,
     private readonly challengeService: ChallengeService,
+    private readonly activityService: ActivityService,
   ) {}
 
   @ResolveField(() => [AwardObject])
@@ -46,5 +48,15 @@ export class UserObjectResolver {
     }
 
     return challenges;
+  }
+
+  @ResolveField(() => Number)
+  async points(@Parent() user: UserObject): Promise<number> {
+    const userActivity = await this.activityService.findByUserId(user.id);
+    if (!userActivity) {
+      return 0;
+    }
+
+    return userActivity.reduce((acc, activity) => acc + activity.points, 0);
   }
 }

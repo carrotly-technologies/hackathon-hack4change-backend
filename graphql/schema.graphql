@@ -56,6 +56,8 @@ type ActivityObject {
   points: Float!
   trashCount: Float!
   updatedAt: DateTime!
+  user: UserObject
+  userId: ObjectID!
 }
 
 type ActivityPaginationResponse {
@@ -291,6 +293,9 @@ type Query {
   errors: [Error!]!
   example(input: ExampleInput!): ExampleObject!
   examples(input: ExampleFindManyInput!, pagination: PaginationInput!, sort: ExampleFindManySortInput!): ExamplePaginationResponse!
+
+  """Get top 10 users by points"""
+  leaderboard(limit: Int! = 10): [UserObject!]!
   minioTest: String!
   user(input: UserInput!): UserObject
   users(input: UserFindManyInput!, pagination: PaginationInput!, sort: UserFindManySortInput!): UserPaginationResponse!
@@ -347,6 +352,7 @@ type UserObject {
   firstname: String!
   id: ObjectID!
   lastname: String!
+  points: Float!
   updatedAt: DateTime!
 }
 

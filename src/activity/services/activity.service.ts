@@ -22,6 +22,13 @@ export class ActivityService {
     return activity ? new ActivityObject(activity) : null;
   }
 
+  async findByUserId(userId: string): Promise<ActivityObject[] | null> {
+    const activity = await this.activityRepository.findByUserId(userId);
+    return activity
+      ? activity.map((activity) => new ActivityObject(activity))
+      : null;
+  }
+
   async findMany(
     filter: ActivityFindManyInput,
     sort: ActivityFindManySortInput,

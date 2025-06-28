@@ -2,6 +2,7 @@ import { Field, ObjectType } from "@nestjs/graphql";
 import { GraphQLObjectID } from "graphql-scalars";
 import { ActivityDocument } from "@app/activity/schemas/activity.schema";
 import { ActivityType } from "@app/activity/enum/activity-type.enum";
+import { UserObject } from "@app/user/objects/user.object";
 
 @ObjectType()
 export class PathPointObject {
@@ -16,6 +17,12 @@ export class PathPointObject {
 export class ActivityObject {
   @Field(() => GraphQLObjectID)
   id: string;
+
+  @Field(() => GraphQLObjectID)
+  userId: string;
+
+  @Field(() => UserObject, { nullable: true })
+  user?: UserObject;
 
   @Field(() => Number)
   durationTime: number;

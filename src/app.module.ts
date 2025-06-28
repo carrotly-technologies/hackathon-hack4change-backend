@@ -15,6 +15,7 @@ import { UserModule } from "@app/user/user.module";
 import { AwardModule } from "@app/awards/award.module";
 import { ChallengeModule } from "@app/challenges/challenge.module";
 import { ActivityModule } from "@app/activity/activity.module";
+import { LeaderboardModule } from "@app/leaderboard/leaderboard.module";
 
 const commonModules = [
   AppConfigModule,
@@ -32,6 +33,7 @@ const commonModules = [
     AwardModule,
     ChallengeModule,
     ActivityModule,
+    LeaderboardModule,
   ],
   providers: [
     AppResolver,

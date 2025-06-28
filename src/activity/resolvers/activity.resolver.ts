@@ -1,4 +1,11 @@
-import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import {
+  Args,
+  Mutation,
+  Query,
+  Resolver,
+  ResolveField,
+  Parent,
+} from "@nestjs/graphql";
 import { ActivityService } from "@app/activity/services/activity.service";
 import { ActivityObject } from "@app/activity/objects/activity.object";
 import { ActivityPaginationResponse } from "@app/activity/responses/activity-pagination.response";
@@ -8,6 +15,8 @@ import { ActivityUpdateInput } from "@app/activity/inputs/activity-update.input"
 import { ActivityFindManyInput } from "@app/activity/inputs/activity-find-many.input";
 import { ActivityFindManySortInput } from "@app/activity/inputs/activity-find-many-sort.input";
 import { PaginationInput } from "@app/common/inputs/pagination.input";
+import { UserService } from "@app/user/services/user.service";
+import { UserObject } from "@app/user/objects/user.object";
 import {
   INPUT_KEY,
   INPUT_SORT,
@@ -16,7 +25,15 @@ import {
 
 @Resolver(() => ActivityObject)
 export class ActivityResolver {
-  constructor(private readonly activityService: ActivityService) {}
+  constructor(
+    private readonly activityService: ActivityService,
+    private readonly userService: UserService,
+  ) {}
+
+  @ResolveField(() => UserObject, { nullable: true })
+  async user(@Parent() activity: ActivityObject): Promise<UserObject | null> {
+    return this.userService.findById(activity.userId);
+  }
 
   @Query(() => ActivityObject, { nullable: true })
   async activity(

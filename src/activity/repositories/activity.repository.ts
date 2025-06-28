@@ -27,6 +27,10 @@ export class ActivityRepository {
     return this.activityModel.findById(id).exec();
   }
 
+  async findByUserId(userId: string): Promise<ActivityDocument[] | null> {
+    return this.activityModel.find({ userId }).exec();
+  }
+
   async update(
     id: string,
     input: ActivityUpdateInput,
