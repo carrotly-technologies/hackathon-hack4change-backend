@@ -98,6 +98,21 @@ export class UserRepository {
       .exec();
   }
 
+  async subtractCoinsFromUser(
+    userId: string,
+    coinValue: number,
+  ): Promise<UserDocument | null> {
+    return this.userModel
+      .findByIdAndUpdate(
+        userId,
+        {
+          $inc: { coin: -coinValue },
+        },
+        { new: true },
+      )
+      .exec();
+  }
+
   private serializeQuery(input: UserFindManyInput) {
     const { email, firstname, lastname } = input || {};
     return input

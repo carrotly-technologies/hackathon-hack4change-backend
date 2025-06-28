@@ -17,6 +17,7 @@ import { ChallengeModule } from "@app/challenges/challenge.module";
 import { ActivityModule } from "@app/activity/activity.module";
 import { LeaderboardModule } from "@app/leaderboard/leaderboard.module";
 import { EventsModule } from "@app/events/events.module";
+import { MarketplaceModule } from "@app/marketplace/marketplace.module";
 
 const commonModules = [
   AppConfigModule,
@@ -36,6 +37,7 @@ const commonModules = [
     ActivityModule,
     LeaderboardModule,
     EventsModule,
+    MarketplaceModule,
   ],
   providers: [
     AppResolver,
@@ -60,4 +62,4 @@ const commonModules = [
     },
   ],
 })
-export class AppModule { }
+export class AppModule {}

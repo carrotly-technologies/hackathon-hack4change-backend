@@ -136,6 +136,30 @@ export class UserService {
     return new UserObject(updatedUser);
   }
 
+  async subtractCoinsFromUser(
+    userId: string,
+    coinValue: number,
+  ): Promise<UserObject> {
+    const user = await this.userRepository.findById(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    if (user.coin < coinValue) {
+      throw new Error("Insufficient coins");
+    }
+
+    const updatedUser = await this.userRepository.subtractCoinsFromUser(
+      userId,
+      coinValue,
+    );
+    if (!updatedUser) {
+      throw new Error("Failed to subtract coins from user");
+    }
+
+    return new UserObject(updatedUser);
+  }
+
   private async validateAwardIds(awardIds: string[]): Promise<void> {
     for (const awardId of awardIds) {
       const award = await this.awardService.findById(awardId);

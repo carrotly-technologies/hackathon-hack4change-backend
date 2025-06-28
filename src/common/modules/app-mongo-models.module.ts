@@ -19,6 +19,10 @@ import {
 import { Global, Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { Event, EventSchema } from "@app/events/schemas/event.schema";
+import {
+  Marketplace,
+  MarketplaceSchema,
+} from "@app/marketplace/schemas/marketplace.schema";
 
 const models = [
   { name: Example.name, schema: ExampleSchema },
@@ -28,6 +32,7 @@ const models = [
   { name: UserChallengeProgress.name, schema: UserChallengeProgressSchema },
   { name: Activity.name, schema: ActivitySchema },
   { name: Event.name, schema: EventSchema },
+  { name: Marketplace.name, schema: MarketplaceSchema },
 ];
 
 @Global()

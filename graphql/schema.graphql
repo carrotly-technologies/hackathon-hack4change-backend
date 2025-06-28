@@ -237,6 +237,8 @@ enum Error {
   ACTIVITY_NOT_FOUND
   EXAMPLE_NAME_NOT_UNIQUE_CODE
   EXAMPLE_NOT_FOUND_CODE
+  MARKETPLACE_INSUFFICIENT_COINS
+  MARKETPLACE_NOT_FOUND
   UNAUTHENTICATED_ERROR_CODE
 }
 
@@ -393,6 +395,54 @@ input LocalizationInput {
   longitude: Float!
 }
 
+input MarketplaceCreateInput {
+  description: String!
+  name: String!
+  price: Float!
+}
+
+input MarketplaceFindManyInput {
+  description: String
+  name: String
+}
+
+input MarketplaceFindManySortInput {
+  createdAt: SortInput
+  name: SortInput
+  price: SortInput
+  updatedAt: SortInput
+}
+
+input MarketplaceInput {
+  id: ObjectID!
+}
+
+type MarketplaceObject {
+  createdAt: DateTime!
+  description: String!
+  id: ObjectID!
+  name: String!
+  price: Float!
+  updatedAt: DateTime!
+}
+
+type MarketplacePaginationResponse {
+  data: [MarketplaceObject!]!
+  metadata: PaginationMetadata!
+}
+
+input MarketplacePurchaseInput {
+  marketplaceId: ObjectID!
+  userId: ObjectID!
+}
+
+input MarketplaceUpdateInput {
+  description: String
+  id: ObjectID!
+  name: String
+  price: Float
+}
+
 type Mutation {
   activityAddPathPoint(input: ActivityAddPathPointInput!): ActivityObject!
   activityAddScore(input: ActivityAddScoreInput!): ActivityObject!
@@ -416,6 +466,10 @@ type Mutation {
   exampleCreate(input: ExampleCreateInput!): ExampleObject!
   exampleDelete(input: ExampleInput!): Success!
   exampleUpdate(input: ExampleUpdateInput!): ExampleObject!
+  marketplaceCreate(input: MarketplaceCreateInput!): MarketplaceObject!
+  marketplaceDelete(input: MarketplaceInput!): MarketplaceObject
+  marketplacePurchase(input: MarketplacePurchaseInput!): MarketplaceObject!
+  marketplaceUpdate(input: MarketplaceUpdateInput!): MarketplaceObject
   userAddAward(input: UserAddAwardInput!): UserObject!
   userCreate(input: UserCreateInput!): UserObject!
 }
@@ -475,6 +529,8 @@ type Query {
   Get top users by total points (activities + challenges) with optional date filtering
   """
   leaderboard(input: LeaderboardFindInput!): [LeaderboardEntryObject!]!
+  marketplace(input: MarketplaceInput!): MarketplaceObject
+  marketplaces(input: MarketplaceFindManyInput!, pagination: PaginationInput!, sort: MarketplaceFindManySortInput!): MarketplacePaginationResponse!
   minioTest: String!
   user(input: UserInput!): UserObject
   userChallengeProgress(input: ChallengeProgressFindInput!): [UserChallengeProgressObject!]!

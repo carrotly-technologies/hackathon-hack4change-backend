@@ -7,11 +7,13 @@ import { GqlExampleErrors } from "@app/example-module/errors/graphql-example-err
 import { ExampleColor } from "@app/example-module/enum/example-color.enum";
 import { ActivityType } from "@app/activity/enum/activity-type.enum";
 import { GraphqlActivityErrors } from "@app/activity/errors/graphql-activity-errors";
+import { GraphqlMarketplaceErrors } from "@app/marketplace/errors/graphql-marketplace-errors";
 
 export const Errors = {
   ...GqlCommonErrors,
   ...GqlExampleErrors,
   ...GraphqlActivityErrors,
+  ...GraphqlMarketplaceErrors,
 };
 
 export const registerEnums = () => {
