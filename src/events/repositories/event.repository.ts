@@ -113,8 +113,6 @@ export class EventRepository {
       aggregation.unshift(geoQuery);
     }
 
-    console.log(geoQuery);
-
     const data = await this.eventModel.aggregate<EventDocument>([
       ...aggregation,
       ...pipelinePagination,
