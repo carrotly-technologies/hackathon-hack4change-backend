@@ -1,4 +1,5 @@
 import { Field, InputType } from "@nestjs/graphql";
+import { GraphQLObjectID } from "graphql-scalars";
 import { ActivityType } from "@app/activity/enum/activity-type.enum";
 
 @InputType()
@@ -12,16 +13,19 @@ export class PathPointInput {
 
 @InputType()
 export class ActivityCreateInput {
-  @Field(() => Number)
+  @Field(() => GraphQLObjectID)
+  userId: string;
+
+  @Field(() => Number, { defaultValue: 0 })
   durationTime: number;
 
-  @Field(() => Number)
+  @Field(() => Number, { defaultValue: 0 })
   distance: number;
 
   /* @Field(() => Number)
   trashCount: number; */
 
-  @Field(() => Number)
+  @Field(() => Number, { defaultValue: 0 })
   points: number;
 
   @Field(() => ActivityType)
@@ -33,12 +37,12 @@ export class ActivityCreateInput {
   @Field(() => String)
   name: string;
 
-  @Field(() => [String])
+  @Field(() => [String], { defaultValue: [] })
   imageUrls: string[];
 
-  @Field(() => [PathPointInput])
+  @Field(() => [PathPointInput], { defaultValue: [] })
   path: PathPointInput[];
 
-  @Field(() => [PathPointInput])
+  @Field(() => [PathPointInput], { defaultValue: [] })
   trashLocations: PathPointInput[];
 }

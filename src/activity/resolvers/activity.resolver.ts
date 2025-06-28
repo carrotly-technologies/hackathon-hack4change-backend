@@ -14,6 +14,11 @@ import { ActivityCreateInput } from "@app/activity/inputs/activity-create.input"
 import { ActivityUpdateInput } from "@app/activity/inputs/activity-update.input";
 import { ActivityFindManyInput } from "@app/activity/inputs/activity-find-many.input";
 import { ActivityFindManySortInput } from "@app/activity/inputs/activity-find-many-sort.input";
+import { ActivityStartInput } from "@app/activity/inputs/activity-start.input";
+import { ActivityEndInput } from "@app/activity/inputs/activity-end.input";
+import { ActivityAddScoreInput } from "@app/activity/inputs/activity-add-score.input";
+import { ActivityAddTrashInput } from "@app/activity/inputs/activity-add-trash.input";
+import { ActivityAddPathPointInput } from "@app/activity/inputs/activity-add-point.input";
 import { PaginationInput } from "@app/common/inputs/pagination.input";
 import { UserService } from "@app/user/services/user.service";
 import { UserObject } from "@app/user/objects/user.object";
@@ -42,6 +47,13 @@ export class ActivityResolver {
     return this.activityService.findById(input.id);
   }
 
+  @Query(() => ActivityObject, { nullable: true })
+  async activityStarted(
+    @Args("userId") userId: string,
+  ): Promise<ActivityObject | null> {
+    return this.activityService.findActiveByUserId(userId);
+  }
+
   @Query(() => ActivityPaginationResponse)
   async activities(
     @Args(INPUT_KEY) filter: ActivityFindManyInput,
@@ -58,6 +70,41 @@ export class ActivityResolver {
     return this.activityService.create(input);
   }
 
+  @Mutation(() => ActivityObject)
+  async activityStart(
+    @Args(INPUT_KEY) input: ActivityStartInput,
+  ): Promise<ActivityObject> {
+    return this.activityService.startActivity(input);
+  }
+
+  @Mutation(() => ActivityObject)
+  async activityEnd(
+    @Args(INPUT_KEY) input: ActivityEndInput,
+  ): Promise<ActivityObject> {
+    return this.activityService.endActivity(input);
+  }
+
+  @Mutation(() => ActivityObject)
+  async activityAddScore(
+    @Args(INPUT_KEY) input: ActivityAddScoreInput,
+  ): Promise<ActivityObject> {
+    return this.activityService.addScore(input);
+  }
+
+  @Mutation(() => ActivityObject)
+  async activityAddTrash(
+    @Args(INPUT_KEY) input: ActivityAddTrashInput,
+  ): Promise<ActivityObject> {
+    return this.activityService.addTrash(input);
+  }
+
+  @Mutation(() => ActivityObject)
+  async activityAddPathPoint(
+    @Args(INPUT_KEY) input: ActivityAddPathPointInput,
+  ): Promise<ActivityObject> {
+    return this.activityService.addPathPoint(input);
+  }
+
   @Mutation(() => ActivityObject, { nullable: true })
   async activityUpdate(
     @Args(INPUT_KEY) input: ActivityUpdateInput,
@@ -70,5 +117,12 @@ export class ActivityResolver {
     @Args(INPUT_KEY) input: ActivityInput,
   ): Promise<ActivityObject | null> {
     return this.activityService.delete(input.id);
+  }
+
+  @Query(() => Number, { nullable: true })
+  async activityCurrentDuration(
+    @Args("activityId") activityId: string,
+  ): Promise<number | null> {
+    return this.activityService.getCurrentDuration(activityId);
   }
 }

@@ -2,16 +2,40 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input ActivityAddPathPointInput {
+  activityId: ObjectID!
+  lat: String!
+  lon: String!
+}
+
+input ActivityAddScoreInput {
+  activityId: ObjectID!
+  points: Float!
+}
+
+input ActivityAddTrashInput {
+  activityId: ObjectID!
+  lat: String!
+  lon: String!
+}
+
 input ActivityCreateInput {
   activityType: ActivityType!
   description: String!
-  distance: Float!
-  durationTime: Float!
-  imageUrls: [String!]!
+  distance: Float! = 0
+  durationTime: Float! = 0
+  imageUrls: [String!]! = []
   name: String!
-  path: [PathPointInput!]!
-  points: Float!
-  trashLocations: [PathPointInput!]!
+  path: [PathPointInput!]! = []
+  points: Float! = 0
+  trashLocations: [PathPointInput!]! = []
+  userId: ObjectID!
+}
+
+input ActivityEndInput {
+  activityId: ObjectID!
+  distance: Float!
+  imageUrls: [String!]!
 }
 
 input ActivityFindManyInput {
@@ -46,15 +70,20 @@ input ActivityInput {
 type ActivityObject {
   activityType: ActivityType!
   createdAt: DateTime!
+  currentDuration: Float
   description: String!
   distance: Float!
   durationTime: Float!
+  endTime: DateTime
   id: ObjectID!
   imageUrls: [String!]!
+  isActive: Boolean!
   name: String!
   path: [PathPointObject!]!
   points: Float!
+  startTime: DateTime
   trashCount: Float!
+  trashLocations: [PathPointObject!]!
   updatedAt: DateTime!
   user: UserObject
   userId: ObjectID!
@@ -63,6 +92,13 @@ type ActivityObject {
 type ActivityPaginationResponse {
   data: [ActivityObject!]!
   metadata: PaginationMetadata!
+}
+
+input ActivityStartInput {
+  activityType: ActivityType!
+  description: String!
+  name: String!
+  userId: ObjectID!
 }
 
 enum ActivityType {
@@ -176,6 +212,9 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 enum Error {
+  ACTIVITY_ALREADY_STARTED
+  ACTIVITY_NOT_ACTIVE
+  ACTIVITY_NOT_FOUND
   EXAMPLE_NAME_NOT_UNIQUE_CODE
   EXAMPLE_NOT_FOUND_CODE
   UNAUTHENTICATED_ERROR_CODE
@@ -330,8 +369,13 @@ type LocalizationObject {
 }
 
 type Mutation {
+  activityAddPathPoint(input: ActivityAddPathPointInput!): ActivityObject!
+  activityAddScore(input: ActivityAddScoreInput!): ActivityObject!
+  activityAddTrash(input: ActivityAddTrashInput!): ActivityObject!
   activityCreate(input: ActivityCreateInput!): ActivityObject!
   activityDelete(input: ActivityInput!): ActivityObject
+  activityEnd(input: ActivityEndInput!): ActivityObject!
+  activityStart(input: ActivityStartInput!): ActivityObject!
   activityUpdate(input: ActivityUpdateInput!): ActivityObject
   awardCreate(input: AwardCreateInput!): AwardObject!
   awardDelete(input: AwardInput!): AwardObject
@@ -386,6 +430,8 @@ input PathPointUpdateInput {
 type Query {
   activities(input: ActivityFindManyInput!, pagination: PaginationInput!, sort: ActivityFindManySortInput!): ActivityPaginationResponse!
   activity(input: ActivityInput!): ActivityObject
+  activityCurrentDuration(activityId: String!): Float
+  activityStarted(userId: String!): ActivityObject
   award(input: AwardInput!): AwardObject
   awards(input: AwardFindManyInput!, pagination: PaginationInput!, sort: AwardFindManySortInput!): AwardPaginationResponse!
   challenge(input: ChallengeInput!): ChallengeObject

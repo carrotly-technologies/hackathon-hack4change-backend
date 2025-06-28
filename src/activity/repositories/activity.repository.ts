@@ -34,6 +34,98 @@ export class ActivityRepository {
     return this.activityModel.find({ userId }).exec();
   }
 
+  async findActiveByUserId(userId: string): Promise<ActivityDocument | null> {
+    return this.activityModel.findOne({ userId, isActive: true }).exec();
+  }
+
+  async startActivity(input: {
+    userId: string;
+    activityType: string;
+    description: string;
+    name: string;
+  }): Promise<ActivityDocument> {
+    const activity = new this.activityModel({
+      ...input,
+      isActive: true,
+      startTime: new Date(),
+      durationTime: 0,
+      distance: 0,
+      trashCount: 0,
+      points: 0,
+      imageUrls: [],
+      path: [],
+      trashLocations: [],
+    });
+    return activity.save();
+  }
+
+  async endActivity(
+    id: string,
+    input: {
+      distance: number;
+      imageUrls: string[];
+    },
+  ): Promise<ActivityDocument | null> {
+    const activity = await this.findById(id);
+    if (!activity || !activity.startTime) {
+      return null;
+    }
+
+    const endTime = new Date();
+    const durationTime = Math.floor(
+      (endTime.getTime() - activity.startTime.getTime()) / 1000,
+    ); // Duration in seconds
+
+    return this.activityModel
+      .findByIdAndUpdate(
+        id,
+        {
+          ...input,
+          durationTime,
+          isActive: false,
+          endTime,
+        },
+        { new: true },
+      )
+      .exec();
+  }
+
+  async addPoints(
+    id: string,
+    points: number,
+  ): Promise<ActivityDocument | null> {
+    return this.activityModel
+      .findByIdAndUpdate(id, { $inc: { points } }, { new: true })
+      .exec();
+  }
+
+  async addTrash(
+    id: string,
+    lat: string,
+    lon: string,
+  ): Promise<ActivityDocument | null> {
+    return this.activityModel
+      .findByIdAndUpdate(
+        id,
+        {
+          $inc: { trashCount: 1 },
+          $push: { trashLocations: { lat, lon } },
+        },
+        { new: true },
+      )
+      .exec();
+  }
+
+  async addPathPoint(
+    id: string,
+    lat: string,
+    lon: string,
+  ): Promise<ActivityDocument | null> {
+    return this.activityModel
+      .findByIdAndUpdate(id, { $push: { path: { lat, lon } } }, { new: true })
+      .exec();
+  }
+
   async update(
     id: string,
     input: ActivityUpdateInput,
@@ -45,6 +137,18 @@ export class ActivityRepository {
 
   async delete(id: string): Promise<ActivityDocument | null> {
     return this.activityModel.findByIdAndDelete(id).exec();
+  }
+
+  async getCurrentDuration(id: string): Promise<number | null> {
+    const activity = await this.findById(id);
+    if (!activity || !activity.isActive || !activity.startTime) {
+      return null;
+    }
+
+    const currentTime = new Date();
+    return Math.floor(
+      (currentTime.getTime() - activity.startTime.getTime()) / 1000,
+    ); // Duration in seconds
   }
 
   private serializeQuery(filter: ActivityFindManyInput): PipelineStage {

@@ -24,8 +24,20 @@ export class ActivityObject {
   @Field(() => UserObject, { nullable: true })
   user?: UserObject;
 
+  @Field(() => Boolean)
+  isActive: boolean;
+
+  @Field(() => Date, { nullable: true })
+  startTime?: Date;
+
+  @Field(() => Date, { nullable: true })
+  endTime?: Date;
+
   @Field(() => Number)
   durationTime: number;
+
+  @Field(() => Number, { nullable: true })
+  currentDuration?: number;
 
   @Field(() => Number)
   distance: number;
@@ -51,6 +63,9 @@ export class ActivityObject {
   @Field(() => [PathPointObject])
   path: PathPointObject[];
 
+  @Field(() => [PathPointObject])
+  trashLocations: PathPointObject[];
+
   @Field(() => Date)
   createdAt: Date;
 
@@ -64,5 +79,13 @@ export class ActivityObject {
         ? (input as ActivityDocument).toObject({ virtuals: true })
         : input),
     });
+
+    // Calculate current duration for active activities
+    if (this.isActive && this.startTime) {
+      const currentTime = new Date();
+      this.currentDuration = Math.floor(
+        (currentTime.getTime() - new Date(this.startTime).getTime()) / 1000,
+      );
+    }
   }
 }

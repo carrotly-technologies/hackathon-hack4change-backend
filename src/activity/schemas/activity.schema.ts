@@ -16,16 +16,25 @@ export class Activity {
   @Prop({ type: Types.ObjectId, ref: "User", required: true })
   userId: Types.ObjectId;
 
-  @Prop({ type: Number, required: true })
+  @Prop({ type: Boolean, default: false })
+  isActive: boolean;
+
+  @Prop({ type: Date })
+  startTime?: Date;
+
+  @Prop({ type: Date })
+  endTime?: Date;
+
+  @Prop({ type: Number, default: 0 })
   durationTime: number;
 
-  @Prop({ type: Number, required: true })
+  @Prop({ type: Number, default: 0 })
   distance: number;
 
-  @Prop({ type: Number, required: true })
+  @Prop({ type: Number, default: 0 })
   trashCount: number;
 
-  @Prop({ type: Number, required: true })
+  @Prop({ type: Number, default: 0 })
   points: number;
 
   @Prop({ type: String, enum: ActivityType, required: true })
@@ -37,13 +46,13 @@ export class Activity {
   @Prop({ type: String, required: true })
   name: string;
 
-  @Prop({ type: [String], required: true })
+  @Prop({ type: [String], default: [] })
   imageUrls: string[];
 
-  @Prop({ type: [{ lat: String, lon: String }], required: true })
+  @Prop({ type: [{ lat: String, lon: String }], default: [] })
   path: PathPoint[];
 
-  @Prop({ type: [{ lat: String, lon: String }], required: true })
+  @Prop({ type: [{ lat: String, lon: String }], default: [] })
   trashLocations: PathPoint[];
 }
 

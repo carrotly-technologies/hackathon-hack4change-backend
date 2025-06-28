@@ -7,6 +7,14 @@ import { ActivityFindManySortInput } from "@app/activity/inputs/activity-find-ma
 import { PaginationInput } from "@app/common/inputs/pagination.input";
 import { ActivityObject } from "@app/activity/objects/activity.object";
 import { ActivityPaginationResponse } from "@app/activity/responses/activity-pagination.response";
+import { ActivityStartInput } from "@app/activity/inputs/activity-start.input";
+import { ActivityEndInput } from "@app/activity/inputs/activity-end.input";
+import { ActivityAddScoreInput } from "@app/activity/inputs/activity-add-score.input";
+import { ActivityAddTrashInput } from "@app/activity/inputs/activity-add-trash.input";
+import { ActivityAddPathPointInput } from "@app/activity/inputs/activity-add-point.input";
+import { ActivityAlreadyStartedError } from "@app/activity/errors/activity-already-started.error";
+import { ActivityNotActiveError } from "@app/activity/errors/activity-not-active.error";
+import { ActivityNotFoundError } from "@app/activity/errors/activity-not-found.error";
 
 @Injectable()
 export class ActivityService {
@@ -27,6 +35,114 @@ export class ActivityService {
     return activity
       ? activity.map((activity) => new ActivityObject(activity))
       : null;
+  }
+
+  async findActiveByUserId(userId: string): Promise<ActivityObject | null> {
+    const activity = await this.activityRepository.findActiveByUserId(userId);
+    return activity ? new ActivityObject(activity) : null;
+  }
+
+  async startActivity(input: ActivityStartInput): Promise<ActivityObject> {
+    const existingActivity = await this.activityRepository.findActiveByUserId(
+      input.userId,
+    );
+    if (existingActivity) {
+      throw new ActivityAlreadyStartedError();
+    }
+
+    const activity = await this.activityRepository.startActivity(input);
+    return new ActivityObject(activity);
+  }
+
+  async endActivity(input: ActivityEndInput): Promise<ActivityObject> {
+    const activity = await this.activityRepository.findById(input.activityId);
+    if (!activity) {
+      throw new ActivityNotFoundError();
+    }
+    if (!activity.isActive) {
+      throw new ActivityNotActiveError();
+    }
+
+    const updatedActivity = await this.activityRepository.endActivity(
+      input.activityId,
+      {
+        distance: input.distance,
+        imageUrls: input.imageUrls,
+      },
+    );
+
+    if (!updatedActivity) {
+      throw new ActivityNotFoundError();
+    }
+
+    return new ActivityObject(updatedActivity);
+  }
+
+  async addScore(input: ActivityAddScoreInput): Promise<ActivityObject> {
+    const activity = await this.activityRepository.findById(input.activityId);
+    if (!activity) {
+      throw new ActivityNotFoundError();
+    }
+    if (!activity.isActive) {
+      throw new ActivityNotActiveError();
+    }
+
+    const updatedActivity = await this.activityRepository.addPoints(
+      input.activityId,
+      input.points,
+    );
+
+    if (!updatedActivity) {
+      throw new ActivityNotFoundError();
+    }
+
+    return new ActivityObject(updatedActivity);
+  }
+
+  async addTrash(input: ActivityAddTrashInput): Promise<ActivityObject> {
+    const activity = await this.activityRepository.findById(input.activityId);
+    if (!activity) {
+      throw new ActivityNotFoundError();
+    }
+    if (!activity.isActive) {
+      throw new ActivityNotActiveError();
+    }
+
+    const updatedActivity = await this.activityRepository.addTrash(
+      input.activityId,
+      input.lat,
+      input.lon,
+    );
+
+    if (!updatedActivity) {
+      throw new ActivityNotFoundError();
+    }
+
+    return new ActivityObject(updatedActivity);
+  }
+
+  async addPathPoint(
+    input: ActivityAddPathPointInput,
+  ): Promise<ActivityObject> {
+    const activity = await this.activityRepository.findById(input.activityId);
+    if (!activity) {
+      throw new ActivityNotFoundError();
+    }
+    if (!activity.isActive) {
+      throw new ActivityNotActiveError();
+    }
+
+    const updatedActivity = await this.activityRepository.addPathPoint(
+      input.activityId,
+      input.lat,
+      input.lon,
+    );
+
+    if (!updatedActivity) {
+      throw new ActivityNotFoundError();
+    }
+
+    return new ActivityObject(updatedActivity);
   }
 
   async findMany(
@@ -58,5 +174,17 @@ export class ActivityService {
   async delete(id: string): Promise<ActivityObject | null> {
     const activity = await this.activityRepository.delete(id);
     return activity ? new ActivityObject(activity) : null;
+  }
+
+  async getCurrentDuration(activityId: string): Promise<number | null> {
+    const activity = await this.activityRepository.findById(activityId);
+    if (!activity) {
+      throw new ActivityNotFoundError();
+    }
+    if (!activity.isActive) {
+      throw new ActivityNotActiveError();
+    }
+
+    return this.activityRepository.getCurrentDuration(activityId);
   }
 }
