@@ -20,6 +20,9 @@ export class EventObject {
   @Field(() => Date)
   time: Date;
 
+  @Field(() => Date)
+  date: Date;
+
   @Field(() => String)
   imageUrl: string;
 

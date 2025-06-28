@@ -10,6 +10,9 @@ export class EventFindManySortInput {
   time?: SortInput;
 
   @Field(() => SortInput, { nullable: true })
+  date?: SortInput;
+
+  @Field(() => SortInput, { nullable: true })
   eventType?: SortInput;
 
   @Field(() => SortInput, { nullable: true })
