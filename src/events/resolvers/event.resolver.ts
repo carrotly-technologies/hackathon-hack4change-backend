@@ -12,11 +12,11 @@ import {
   INPUT_KEY,
   INPUT_SORT,
   INPUT_PAGINATION,
-} from '@app/common/common.constraints';
+} from "@app/common/common.constraints";
 
 @Resolver(() => EventObject)
 export class EventResolver {
-  constructor(private readonly eventService: EventService) { }
+  constructor(private readonly eventService: EventService) {}
 
   @Query(() => EventObject, { nullable: true })
   async event(@Args(INPUT_KEY) input: EventInput): Promise<EventObject | null> {
@@ -33,17 +33,23 @@ export class EventResolver {
   }
 
   @Mutation(() => EventObject)
-  async eventCreate(@Args(INPUT_KEY) input: EventCreateInput): Promise<EventObject> {
+  async eventCreate(
+    @Args(INPUT_KEY) input: EventCreateInput,
+  ): Promise<EventObject> {
     return this.eventService.create(input);
   }
 
   @Mutation(() => EventObject, { nullable: true })
-  async eventUpdate(@Args(INPUT_KEY) input: EventUpdateInput): Promise<EventObject | null> {
+  async eventUpdate(
+    @Args(INPUT_KEY) input: EventUpdateInput,
+  ): Promise<EventObject | null> {
     return this.eventService.updateOneById(input);
   }
 
   @Mutation(() => EventObject, { nullable: true })
-  async eventDelete(@Args(INPUT_KEY) input: EventInput): Promise<EventObject | null> {
+  async eventDelete(
+    @Args(INPUT_KEY) input: EventInput,
+  ): Promise<EventObject | null> {
     return this.eventService.deleteOneById(input.id);
   }
 }

@@ -1,6 +1,6 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { LocalizationInput } from './localization.input';
-import { EventType } from '../enums/event-type.enum';
+import { Field, InputType } from "@nestjs/graphql";
+import { LocalizationInput } from "./localization.input";
+import { EventType } from "../enums/event-type.enum";
 
 @InputType()
 export class EventCreateInput {
@@ -14,7 +14,7 @@ export class EventCreateInput {
   time: string;
 
   @Field(() => String)
-  imageUrl = 'https://picsum.photos/64/64';
+  imageUrl = "https://picsum.photos/64/64";
 
   @Field(() => EventType)
   eventType: EventType;
