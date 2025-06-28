@@ -16,6 +16,7 @@ import { AwardModule } from "@app/awards/award.module";
 import { ChallengeModule } from "@app/challenges/challenge.module";
 import { ActivityModule } from "@app/activity/activity.module";
 import { LeaderboardModule } from "@app/leaderboard/leaderboard.module";
+import { EventsModule } from "@app/events/events.module";
 
 const commonModules = [
   AppConfigModule,
@@ -34,6 +35,7 @@ const commonModules = [
     ChallengeModule,
     ActivityModule,
     LeaderboardModule,
+    EventsModule,
   ],
   providers: [
     AppResolver,
@@ -58,4 +60,4 @@ const commonModules = [
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }

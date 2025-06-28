@@ -181,6 +181,74 @@ enum Error {
   UNAUTHENTICATED_ERROR_CODE
 }
 
+input EventCreateInput {
+  eventType: EventType!
+  imageUrl: String! = "https://picsum.photos/64/64"
+  localization: LocalizationInput!
+  name: String!
+  time: String!
+  userIds: [String!]!
+}
+
+input EventFindManyInput {
+  eventType: EventType
+  localization: LocalizationInput
+  name: String
+  time: DateTime
+  userIds: [String!]
+}
+
+input EventFindManySortInput {
+  createdAt: SortInput
+  eventType: SortInput
+  name: SortInput
+  time: SortInput
+  updatedAt: SortInput
+}
+
+input EventInput {
+  eventType: EventType!
+  id: ObjectID!
+  imageIcon: String!
+  localization: LocalizationInput!
+  name: String!
+  time: String!
+  userIds: [String!]!
+}
+
+type EventObject {
+  createdAt: DateTime!
+  eventType: EventType!
+  id: ObjectID!
+  imageUrl: String!
+  localization: LocalizationObject!
+  name: String!
+  time: DateTime!
+  updatedAt: DateTime!
+  userIds: [String!]!
+}
+
+type EventPaginationResponse {
+  data: [EventObject!]!
+  metadata: PaginationMetadata!
+}
+
+"""Type of the event, can be ECOLOGICAL or SOCIAL"""
+enum EventType {
+  ECOLOGICAL
+  SOCIAL
+}
+
+input EventUpdateInput {
+  eventType: EventType
+  id: String!
+  imageIcon: String
+  localization: LocalizationInput
+  name: String
+  time: String
+  userIds: [String!]
+}
+
 enum ExampleColor {
   BLACK
   BLUE
@@ -244,6 +312,17 @@ type LeaderboardEntryObject {
   totalPoints: Float!
 }
 
+input LocalizationInput {
+  coordinates: [Float!]!
+  name: String!
+}
+
+type LocalizationObject {
+  latitude: Float!
+  longitude: Float!
+  name: String!
+}
+
 type Mutation {
   activityCreate(input: ActivityCreateInput!): ActivityObject!
   activityDelete(input: ActivityInput!): ActivityObject
@@ -254,6 +333,9 @@ type Mutation {
   challengeCreate(input: ChallengeCreateInput!): ChallengeObject!
   challengeDelete(input: ChallengeInput!): ChallengeObject
   challengeUpdate(input: ChallengeUpdateInput!): ChallengeObject
+  eventCreate(input: EventCreateInput!): EventObject!
+  eventDelete(input: EventInput!): EventObject
+  eventUpdate(input: EventUpdateInput!): EventObject
   exampleCreate(input: ExampleCreateInput!): ExampleObject!
   exampleDelete(input: ExampleInput!): Success!
   exampleUpdate(input: ExampleUpdateInput!): ExampleObject!
@@ -303,6 +385,8 @@ type Query {
   challenge(input: ChallengeInput!): ChallengeObject
   challenges(input: ChallengeFindManyInput!, pagination: PaginationInput!, sort: ChallengeFindManySortInput!): ChallengePaginationResponse!
   errors: [Error!]!
+  event(input: EventInput!): EventObject
+  events(input: EventFindManyInput!, pagination: PaginationInput!, sort: EventFindManySortInput!): EventPaginationResponse!
   example(input: ExampleInput!): ExampleObject!
   examples(input: ExampleFindManyInput!, pagination: PaginationInput!, sort: ExampleFindManySortInput!): ExamplePaginationResponse!
 

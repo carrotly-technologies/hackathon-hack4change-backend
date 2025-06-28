@@ -14,6 +14,7 @@ import {
 } from "@app/activity/schemas/activity.schema";
 import { Global, Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
+import { Event, EventSchema } from "@app/events/schemas/event.schema";
 
 const models = [
   { name: Example.name, schema: ExampleSchema },
@@ -21,6 +22,7 @@ const models = [
   { name: Award.name, schema: AwardSchema },
   { name: Challenge.name, schema: ChallengeSchema },
   { name: Activity.name, schema: ActivitySchema },
+  { name: Event.name, schema: EventSchema },
 ];
 
 @Global()
@@ -28,4 +30,4 @@ const models = [
   imports: [MongooseModule.forFeature(models)],
   exports: [MongooseModule.forFeature(models)],
 })
-export class AppMongoModelsModule {}
+export class AppMongoModelsModule { }
