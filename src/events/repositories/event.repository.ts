@@ -47,7 +47,7 @@ export class EventRepository {
         $match: {
           ...(name && { name: { $regex: new RegExp(name, "i") } }),
           ...(place && { place: { $regex: new RegExp(place, "i") } }),
-          ...(eventType && { eventType }),
+          ...(eventType && { eventType: { $in: eventType } }),
         },
       }
       : {

@@ -191,7 +191,7 @@ input EventCreateInput {
 }
 
 input EventFindManyInput {
-  eventType: EventType
+  eventType: [EventType!]
   localization: LocalizationInput
   name: String
   place: String
