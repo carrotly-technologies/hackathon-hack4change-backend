@@ -25,9 +25,6 @@ export class UserObject {
   @Field(() => [GraphQLObjectID])
   awardIds: string[];
 
-  @Field(() => [GraphQLObjectID])
-  challengeIds: string[];
-
   @Field(() => Date)
   createdAt: Date;
 

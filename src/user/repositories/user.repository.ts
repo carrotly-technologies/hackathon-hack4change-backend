@@ -83,16 +83,14 @@ export class UserRepository {
       .exec();
   }
 
-  async addChallengeToUser(
+  async addCoinsToUser(
     userId: string,
-    challengeId: Types.ObjectId,
     coinValue: number,
   ): Promise<UserDocument | null> {
     return this.userModel
       .findByIdAndUpdate(
         userId,
         {
-          $addToSet: { challengeIds: challengeId },
           $inc: { coin: coinValue },
         },
         { new: true },

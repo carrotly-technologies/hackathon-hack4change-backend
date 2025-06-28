@@ -2,6 +2,7 @@ import { ResolveField, Resolver, Parent } from "@nestjs/graphql";
 import { UserObject } from "@app/user/objects/user.object";
 import { AwardObject } from "@app/awards/objects/award.object";
 import { ChallengeObject } from "@app/challenges/objects/challenge.object";
+import { UserChallengeProgressObject } from "@app/challenges/objects/user-challenge-progress.object";
 import { AwardService } from "@app/awards/services/award.service";
 import { ChallengeService } from "@app/challenges/services/challenge.service";
 import { ActivityService } from "@app/activity/services/activity.service";
@@ -34,20 +35,33 @@ export class UserObjectResolver {
 
   @ResolveField(() => [ChallengeObject])
   async challenges(@Parent() user: UserObject): Promise<ChallengeObject[]> {
-    if (!user.challengeIds || user.challengeIds.length === 0) {
+    // Get user's challenge progress
+    const userProgress = await this.challengeService.getUserProgress(user.id);
+
+    if (!userProgress || userProgress.length === 0) {
       return [];
     }
 
     const challenges: ChallengeObject[] = [];
 
-    for (const challengeId of user.challengeIds) {
-      const challenge = await this.challengeService.findById(challengeId);
+    // Fetch challenge details for each progress record
+    for (const progress of userProgress) {
+      const challenge = await this.challengeService.findById(
+        progress.challengeId,
+      );
       if (challenge) {
         challenges.push(challenge);
       }
     }
 
     return challenges;
+  }
+
+  @ResolveField(() => [UserChallengeProgressObject])
+  async challengeProgress(
+    @Parent() user: UserObject,
+  ): Promise<UserChallengeProgressObject[]> {
+    return this.challengeService.getUserProgress(user.id);
   }
 
   @ResolveField(() => Number)

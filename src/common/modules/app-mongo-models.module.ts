@@ -9,6 +9,10 @@ import {
   ChallengeSchema,
 } from "@app/challenges/schemas/challenge.schema";
 import {
+  UserChallengeProgress,
+  UserChallengeProgressSchema,
+} from "@app/challenges/schemas/user-challenge-progress.schema";
+import {
   Activity,
   ActivitySchema,
 } from "@app/activity/schemas/activity.schema";
@@ -21,6 +25,7 @@ const models = [
   { name: User.name, schema: UserSchema },
   { name: Award.name, schema: AwardSchema },
   { name: Challenge.name, schema: ChallengeSchema },
+  { name: UserChallengeProgress.name, schema: UserChallengeProgressSchema },
   { name: Activity.name, schema: ActivitySchema },
   { name: Event.name, schema: EventSchema },
 ];
@@ -30,4 +35,4 @@ const models = [
   imports: [MongooseModule.forFeature(models)],
   exports: [MongooseModule.forFeature(models)],
 })
-export class AppMongoModelsModule { }
+export class AppMongoModelsModule {}

@@ -2,13 +2,11 @@ import { Injectable } from "@nestjs/common";
 import { Types } from "mongoose";
 import { UserRepository } from "@app/user/repositories/user.repository";
 import { AwardService } from "@app/awards/services/award.service";
-import { ChallengeService } from "@app/challenges/services/challenge.service";
 import { UserCreateInput } from "@app/user/inputs/user-create.input";
 import { UserUpdateInput } from "@app/user/inputs/user-update.input";
 import { UserFindManyInput } from "@app/user/inputs/user-find-many.input";
 import { UserFindManySortInput } from "@app/user/inputs/user-find-many-sort.input";
 import { UserAddAwardInput } from "@app/user/inputs/user-add-award.input";
-import { UserAddChallengeInput } from "@app/user/inputs/user-add-challenge.input";
 import { PaginationInput } from "@app/common/inputs/pagination.input";
 import { UserObject } from "@app/user/objects/user.object";
 import { UserPaginationResponse } from "@app/user/responses/user-pagination.response";
@@ -18,7 +16,6 @@ export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly awardService: AwardService,
-    private readonly challengeService: ChallengeService,
   ) {}
 
   async create(input: UserCreateInput): Promise<UserObject> {
@@ -32,19 +29,11 @@ export class UserService {
       await this.validateAwardIds(input.awardIds);
     }
 
-    // Validate challenge IDs if provided
-    if (input.challengeIds && input.challengeIds.length > 0) {
-      await this.validateChallengeIds(input.challengeIds);
-    }
-
     // Convert string IDs to ObjectIds
     const userData = {
       ...input,
       awardIds: input.awardIds
         ? input.awardIds.map((id) => new Types.ObjectId(id))
-        : [],
-      challengeIds: input.challengeIds
-        ? input.challengeIds.map((id) => new Types.ObjectId(id))
         : [],
     };
 
@@ -83,19 +72,11 @@ export class UserService {
       await this.validateAwardIds(input.awardIds);
     }
 
-    // Validate challenge IDs if provided
-    if (input.challengeIds && input.challengeIds.length > 0) {
-      await this.validateChallengeIds(input.challengeIds);
-    }
-
     // Convert string IDs to ObjectIds
     const updateData = {
       ...input,
       awardIds: input.awardIds
         ? input.awardIds.map((id) => new Types.ObjectId(id))
-        : undefined,
-      challengeIds: input.challengeIds
-        ? input.challengeIds.map((id) => new Types.ObjectId(id))
         : undefined,
     };
 
@@ -138,31 +119,18 @@ export class UserService {
     return new UserObject(updatedUser);
   }
 
-  async addChallengeToUser(input: UserAddChallengeInput): Promise<UserObject> {
-    const user = await this.userRepository.findById(input.userId);
+  async addCoinsToUser(userId: string, coinValue: number): Promise<UserObject> {
+    const user = await this.userRepository.findById(userId);
     if (!user) {
       throw new Error("User not found");
     }
 
-    const challenge = await this.challengeService.findById(input.challengeId);
-    if (!challenge) {
-      throw new Error("Challenge not found");
-    }
-
-    // Check if user already has this challenge
-    if (user.challengeIds.some((id) => id.toString() === input.challengeId)) {
-      throw new Error("User already has this challenge");
-    }
-
-    // Add challenge to user and update coin balance
-    const updatedUser = await this.userRepository.addChallengeToUser(
-      input.userId,
-      new Types.ObjectId(input.challengeId),
-      challenge.coin,
+    const updatedUser = await this.userRepository.addCoinsToUser(
+      userId,
+      coinValue,
     );
-
     if (!updatedUser) {
-      throw new Error("Failed to add challenge to user");
+      throw new Error("Failed to add coins to user");
     }
 
     return new UserObject(updatedUser);
@@ -173,15 +141,6 @@ export class UserService {
       const award = await this.awardService.findById(awardId);
       if (!award) {
         throw new Error(`Award with ID ${awardId} does not exist`);
-      }
-    }
-  }
-
-  private async validateChallengeIds(challengeIds: string[]): Promise<void> {
-    for (const challengeId of challengeIds) {
-      const challenge = await this.challengeService.findById(challengeId);
-      if (!challenge) {
-        throw new Error(`Challenge with ID ${challengeId} does not exist`);
       }
     }
   }

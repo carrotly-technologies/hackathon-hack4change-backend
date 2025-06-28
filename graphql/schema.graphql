@@ -34,8 +34,10 @@ input ActivityCreateInput {
 
 input ActivityEndInput {
   activityId: ObjectID!
+  description: String
   distance: Float!
   imageUrls: [String!]!
+  name: String
 }
 
 input ActivityFindManyInput {
@@ -71,14 +73,14 @@ type ActivityObject {
   activityType: ActivityType!
   createdAt: DateTime!
   currentDuration: Float
-  description: String!
+  description: String
   distance: Float!
   durationTime: Float!
   endTime: DateTime
   id: ObjectID!
   imageUrls: [String!]!
   isActive: Boolean!
-  name: String!
+  name: String
   path: [PathPointObject!]!
   points: Float!
   startTime: DateTime
@@ -96,8 +98,6 @@ type ActivityPaginationResponse {
 
 input ActivityStartInput {
   activityType: ActivityType!
-  description: String!
-  name: String!
   userId: ObjectID!
 }
 
@@ -141,6 +141,7 @@ input AwardInput {
 }
 
 type AwardObject {
+  coin: Float!
   createdAt: DateTime!
   iconUrl: String!
   id: ObjectID!
@@ -184,6 +185,7 @@ input ChallengeInput {
 }
 
 type ChallengeObject {
+  coin: Float!
   createdAt: DateTime!
   description: String!
   iconUrl: String!
@@ -198,12 +200,30 @@ type ChallengePaginationResponse {
   metadata: PaginationMetadata!
 }
 
+input ChallengeProgressFindInput {
+  challengeId: ObjectID
+  userId: ObjectID
+}
+
+input ChallengeStartInput {
+  challengeId: ObjectID!
+  userId: ObjectID!
+}
+
 input ChallengeUpdateInput {
   description: String
   iconUrl: String
   id: ObjectID!
   points: Float
   topic: String
+}
+
+input ChallengeUpdateProgressInput {
+  challengeId: ObjectID!
+
+  """Progress percentage from 0 to 100"""
+  progress: Int!
+  userId: ObjectID!
 }
 
 """
@@ -387,13 +407,16 @@ type Mutation {
   awardUpdate(input: AwardUpdateInput!): AwardObject
   challengeCreate(input: ChallengeCreateInput!): ChallengeObject!
   challengeDelete(input: ChallengeInput!): ChallengeObject
+  challengeStart(input: ChallengeStartInput!): UserChallengeProgressObject!
   challengeUpdate(input: ChallengeUpdateInput!): ChallengeObject
+  challengeUpdateProgress(input: ChallengeUpdateProgressInput!): UserChallengeProgressObject!
   eventCreate(input: EventCreateInput!): EventObject!
   eventDelete(input: EventInput!): EventObject
   eventUpdate(input: EventUpdateInput!): EventObject
   exampleCreate(input: ExampleCreateInput!): ExampleObject!
   exampleDelete(input: ExampleInput!): Success!
   exampleUpdate(input: ExampleUpdateInput!): ExampleObject!
+  userAddAward(input: UserAddAwardInput!): UserObject!
   userCreate(input: UserCreateInput!): UserObject!
 }
 
@@ -454,6 +477,7 @@ type Query {
   leaderboard(input: LeaderboardFindInput!): [LeaderboardEntryObject!]!
   minioTest: String!
   user(input: UserInput!): UserObject
+  userChallengeProgress(input: ChallengeProgressFindInput!): [UserChallengeProgressObject!]!
   users(input: UserFindManyInput!, pagination: PaginationInput!, sort: UserFindManySortInput!): UserPaginationResponse!
 }
 
@@ -470,10 +494,26 @@ type Success {
   success: Boolean!
 }
 
+input UserAddAwardInput {
+  awardId: ObjectID!
+  userId: ObjectID!
+}
+
+type UserChallengeProgressObject {
+  challengeId: ObjectID!
+  completedAt: DateTime
+  createdAt: DateTime!
+  id: ObjectID!
+  progress: Int!
+  startedAt: DateTime!
+  status: String!
+  updatedAt: DateTime!
+  userId: ObjectID!
+}
+
 input UserCreateInput {
   avatarUrl: String
   awardIds: [ObjectID!]
-  challengeIds: [ObjectID!]
   email: String!
   firstname: String!
   lastname: String!
@@ -501,8 +541,9 @@ type UserObject {
   avatarUrl: String
   awardIds: [ObjectID!]!
   awards: [AwardObject!]!
-  challengeIds: [ObjectID!]!
+  challengeProgress: [UserChallengeProgressObject!]!
   challenges: [ChallengeObject!]!
+  coin: Float!
   createdAt: DateTime!
   email: String!
   firstname: String!

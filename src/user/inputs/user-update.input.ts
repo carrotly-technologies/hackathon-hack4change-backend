@@ -20,7 +20,4 @@ export class UserUpdateInput {
 
   @Field(() => [GraphQLObjectID], { nullable: true })
   awardIds?: string[];
-
-  @Field(() => [GraphQLObjectID], { nullable: true })
-  challengeIds?: string[];
 }

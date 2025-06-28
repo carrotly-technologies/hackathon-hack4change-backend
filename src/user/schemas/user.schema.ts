@@ -24,9 +24,6 @@ export class User {
 
   @Prop({ type: [Types.ObjectId], ref: "Award", default: [] })
   awardIds: Types.ObjectId[];
-
-  @Prop({ type: [Types.ObjectId], ref: "Challenge", default: [] })
-  challengeIds: Types.ObjectId[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

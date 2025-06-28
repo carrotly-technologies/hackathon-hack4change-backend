@@ -1,11 +1,11 @@
-import { Field, InputType } from "@nestjs/graphql";
+import { InputType, Field } from "@nestjs/graphql";
 import { GraphQLObjectID } from "graphql-scalars";
 
 @InputType()
-export class UserAddChallengeInput {
+export class ChallengeStartInput {
   @Field(() => GraphQLObjectID)
   userId: string;
 
   @Field(() => GraphQLObjectID)
   challengeId: string;
-} 
+}
