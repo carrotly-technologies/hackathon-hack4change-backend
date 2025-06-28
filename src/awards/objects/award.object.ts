@@ -8,6 +8,9 @@ export class AwardObject {
   id: string;
 
   @Field(() => String)
+  title: string;
+
+  @Field(() => String)
   iconUrl: string;
 
   @Field(() => Date)
