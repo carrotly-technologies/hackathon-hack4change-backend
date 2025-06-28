@@ -106,6 +106,7 @@ type AwardObject {
   createdAt: DateTime!
   iconUrl: String!
   id: ObjectID!
+  title: String!
   updatedAt: DateTime!
 }
 
