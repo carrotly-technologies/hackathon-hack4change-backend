@@ -67,7 +67,7 @@ export class UserRepository {
   }
 
   private serializeQuery(input: UserFindManyInput) {
-    const { email, firstname, lastname, points } = input || {};
+    const { email, firstname, lastname } = input || {};
     return input
       ? {
           $match: {
@@ -78,7 +78,6 @@ export class UserRepository {
             ...(lastname && {
               lastname: { $regex: new RegExp(lastname, "i") },
             }),
-            ...(points !== undefined && { points }),
           },
         }
       : {
@@ -87,15 +86,13 @@ export class UserRepository {
   }
 
   private serializeSortQuery(sort: UserFindManySortInput) {
-    const { email, firstname, lastname, points, createdAt, updatedAt } =
-      sort || {};
+    const { email, firstname, lastname, createdAt, updatedAt } = sort || {};
     return !Object.values(sort || {}).every((el) => el === undefined)
       ? {
           $sort: {
             ...(email && { email: email.direction }),
             ...(firstname && { firstname: firstname.direction }),
             ...(lastname && { lastname: lastname.direction }),
-            ...(points && { points: points.direction }),
             ...(createdAt && { createdAt: createdAt.direction }),
             ...(updatedAt && { updatedAt: updatedAt.direction }),
           },

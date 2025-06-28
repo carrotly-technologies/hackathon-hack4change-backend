@@ -8,6 +8,10 @@ import {
   Challenge,
   ChallengeSchema,
 } from "@app/challenges/schemas/challenge.schema";
+import {
+  Activity,
+  ActivitySchema,
+} from "@app/activity/schemas/activity.schema";
 import { Global, Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 
@@ -16,6 +20,7 @@ const models = [
   { name: User.name, schema: UserSchema },
   { name: Award.name, schema: AwardSchema },
   { name: Challenge.name, schema: ChallengeSchema },
+  { name: Activity.name, schema: ActivitySchema },
 ];
 
 @Global()

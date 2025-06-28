@@ -2,15 +2,24 @@ import { Field, InputType } from "@nestjs/graphql";
 import { SortInput } from "@app/common/inputs/sort.input";
 
 @InputType()
-export class UserFindManySortInput {
+export class ActivityFindManySortInput {
   @Field(() => SortInput, { nullable: true })
-  email?: SortInput;
+  durationTime?: SortInput;
 
   @Field(() => SortInput, { nullable: true })
-  firstname?: SortInput;
+  distance?: SortInput;
 
   @Field(() => SortInput, { nullable: true })
-  lastname?: SortInput;
+  trashCount?: SortInput;
+
+  @Field(() => SortInput, { nullable: true })
+  points?: SortInput;
+
+  @Field(() => SortInput, { nullable: true })
+  activityType?: SortInput;
+
+  @Field(() => SortInput, { nullable: true })
+  name?: SortInput;
 
   @Field(() => SortInput, { nullable: true })
   createdAt?: SortInput;

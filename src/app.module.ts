@@ -14,6 +14,7 @@ import { AppMinioModule } from "@app/common/modules/app-minio.module";
 import { UserModule } from "@app/user/user.module";
 import { AwardModule } from "@app/awards/award.module";
 import { ChallengeModule } from "@app/challenges/challenge.module";
+import { ActivityModule } from "@app/activity/activity.module";
 
 const commonModules = [
   AppConfigModule,
@@ -30,6 +31,7 @@ const commonModules = [
     UserModule,
     AwardModule,
     ChallengeModule,
+    ActivityModule,
   ],
   providers: [
     AppResolver,

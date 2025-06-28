@@ -19,9 +19,6 @@ export class UserObject {
   @Field(() => String, { nullable: true })
   avatarUrl?: string;
 
-  @Field(() => Number)
-  points: number;
-
   @Field(() => [GraphQLObjectID])
   awardIds: string[];
 
