@@ -14,7 +14,7 @@ export class EventRepository {
   constructor(
     @InjectModel(Event.name)
     private readonly eventModel: Model<EventDocument>,
-  ) {}
+  ) { }
 
   async create(data: EventCreateInput): Promise<EventDocument> {
     const event = new this.eventModel(data);
@@ -41,36 +41,58 @@ export class EventRepository {
   }
 
   private serializeQuery(input: EventFindManyInput) {
-    const { name, eventType } = input || {};
+    const { name, eventType, place } = input || {};
     return input
       ? {
-          $match: {
-            ...(name && { name: { $regex: new RegExp(name, "i") } }),
-            ...(eventType && { eventType }),
-          },
-        }
+        $match: {
+          ...(name && { name: { $regex: new RegExp(name, "i") } }),
+          ...(place && { place: { $regex: new RegExp(place, "i") } }),
+          ...(eventType && { eventType }),
+        },
+      }
       : {
-          $match: {},
-        };
+        $match: {},
+      };
+  }
+
+  private serializeGeoQuery(input: EventFindManyInput) {
+    const { localization } = input || {};
+
+    return localization
+      ? {
+        $geoNear: {
+          near: {
+            type: "Point" as const,
+            coordinates: [localization.longitude, localization.latitude] as [
+              number,
+              number,
+            ],
+          },
+          distanceField: "distance",
+          maxDistance: localization.distance * 1000,
+          spherical: true,
+        },
+      }
+      : {};
   }
 
   private serializeSortQuery(sort: EventFindManySortInput) {
     const { name, time, eventType, createdAt, updatedAt } = sort || {};
     return !Object.values(sort || {}).every((el) => el === undefined)
       ? {
-          $sort: {
-            ...(name && { name: name.direction }),
-            ...(time && { time: time.direction }),
-            ...(eventType && { eventType: eventType.direction }),
-            ...(createdAt && { createdAt: createdAt.direction }),
-            ...(updatedAt && { updatedAt: updatedAt.direction }),
-          },
-        }
+        $sort: {
+          ...(name && { name: name.direction }),
+          ...(time && { time: time.direction }),
+          ...(eventType && { eventType: eventType.direction }),
+          ...(createdAt && { createdAt: createdAt.direction }),
+          ...(updatedAt && { updatedAt: updatedAt.direction }),
+        },
+      }
       : {
-          $sort: {
-            createdAt: -1 as const,
-          },
-        };
+        $sort: {
+          createdAt: -1 as const,
+        },
+      };
   }
 
   async findAll(
@@ -79,12 +101,19 @@ export class EventRepository {
     pagination: PaginationInput,
   ) {
     const matchQuery = this.serializeQuery(input);
+    const geoQuery = this.serializeGeoQuery(input);
     const sortQuery = this.serializeSortQuery(sort);
     const { pageSize, page, skipValue } = pagination;
 
     const pipelinePagination = [{ $skip: skipValue }, { $limit: pageSize }];
 
     const aggregation: PipelineStage[] = [matchQuery, sortQuery];
+
+    if (geoQuery.$geoNear) {
+      aggregation.unshift(geoQuery);
+    }
+
+    console.log(geoQuery);
 
     const data = await this.eventModel.aggregate<EventDocument>([
       ...aggregation,

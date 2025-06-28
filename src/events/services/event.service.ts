@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { EventRepository } from "../repositories/event.repository";
 import { EventCreateInput } from "../inputs/event-create.input";
 import { EventUpdateInput } from "../inputs/event-update.input";
-import { EventNotFoundError } from "../errors/event-not-found.error";
 import { EventNameNotUniqueError } from "@app/events/errors/event-name-not-unique.error";
 import { EventFindManySortInput } from "@app/events/inputs/event-find-many-sort.input";
 import { EventFindManyInput } from "@app/events/inputs/event-find-many.input";

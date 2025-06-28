@@ -194,6 +194,7 @@ input EventFindManyInput {
   eventType: EventType
   localization: LocalizationInput
   name: String
+  place: String
   time: DateTime
   userIds: [String!]
 }
@@ -221,8 +222,9 @@ type EventObject {
   eventType: EventType!
   id: ObjectID!
   imageUrl: String!
-  localization: LocalizationObject!
+  localization: [Float!]!
   name: String!
+  place: String!
   time: DateTime!
   updatedAt: DateTime!
   userIds: [String!]!
@@ -319,14 +321,14 @@ input LeaderboardFindInput {
 }
 
 input LocalizationInput {
-  coordinates: [Float!]!
-  name: String!
-}
+  """Distance in kilometers"""
+  distance: Float!
 
-type LocalizationObject {
+  """Your current latitude"""
   latitude: Float!
+
+  """Your current longitude"""
   longitude: Float!
-  name: String!
 }
 
 type Mutation {

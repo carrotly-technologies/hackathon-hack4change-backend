@@ -1,19 +1,7 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
 import { GraphQLObjectID } from 'graphql-scalars';
 import { EventDocument } from '@app/events/schemas/event.schema';
 import { EventType } from '@app/events/enums/event-type.enum';
-
-@ObjectType()
-export class LocalizationObject {
-  @Field(() => String)
-  name: string;
-
-  @Field(() => Number)
-  latitude: number;
-
-  @Field(() => Number)
-  longitude: number;
-}
 
 @ObjectType()
 export class EventObject {
@@ -23,8 +11,11 @@ export class EventObject {
   @Field(() => String)
   name: string;
 
-  @Field(() => LocalizationObject)
-  localization: LocalizationObject;
+  @Field(() => String)
+  place: string;
+
+  @Field(() => [Float])
+  localization: number[];
 
   @Field(() => Date)
   time: Date;
@@ -51,14 +42,5 @@ export class EventObject {
         ? (input as EventDocument).toObject({ virtuals: true })
         : input),
     });
-
-    // Transform localization coordinates if needed
-    if (input.localization && (input as EventDocument).localization?.coordinates) {
-      this.localization = {
-        name: input.localization.name,
-        latitude: (input as EventDocument).localization.coordinates.latitude,
-        longitude: (input as EventDocument).localization.coordinates.longitude,
-      };
-    }
   }
 }

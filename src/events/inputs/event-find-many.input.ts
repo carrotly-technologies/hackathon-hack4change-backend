@@ -7,6 +7,9 @@ export class EventFindManyInput {
   @Field(() => String, { nullable: true })
   name?: string;
 
+  @Field(() => String, { nullable: true })
+  place?: string;
+
   @Field(() => LocalizationInput, { nullable: true })
   localization?: LocalizationInput;
 

@@ -2,9 +2,12 @@ import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class LocalizationInput {
-  @Field(() => String)
-  name: string;
+  @Field(() => Number, { description: 'Your current latitude' })
+  latitude: number;
 
-  @Field(() => [Number])
-  coordinates: [number, number];
+  @Field(() => Number, { description: 'Your current longitude' })
+  longitude: number;
+
+  @Field(() => Number, { description: 'Distance in kilometers' })
+  distance: number;
 }
