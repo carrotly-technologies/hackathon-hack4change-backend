@@ -1,11 +1,4 @@
-import { registerEnumType } from "@nestjs/graphql";
-
 export enum EventType {
-  ECOLOGICAL = "ECOLOGICAL",
-  SOCIAL = "SOCIAL",
+  OWN = "OWN",
+  COMPANY = "COMPANY",
 }
-
-registerEnumType(EventType, {
-  name: "EventType",
-  description: "Type of the event, can be ECOLOGICAL or SOCIAL",
-});

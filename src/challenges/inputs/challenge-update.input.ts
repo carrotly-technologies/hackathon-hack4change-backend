@@ -1,5 +1,6 @@
 import { Field, InputType } from "@nestjs/graphql";
 import { GraphQLObjectID } from "graphql-scalars";
+import { ChallengeType } from "@app/challenges/enum/challenge-type.enum";
 
 @InputType()
 export class ChallengeUpdateInput {
@@ -17,4 +18,7 @@ export class ChallengeUpdateInput {
 
   @Field(() => String, { nullable: true })
   iconUrl?: string;
+
+  @Field(() => ChallengeType, { nullable: true })
+  type?: ChallengeType;
 }

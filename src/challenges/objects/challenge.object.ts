@@ -1,6 +1,7 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 import { GraphQLObjectID } from "graphql-scalars";
 import { ChallengeDocument } from "@app/challenges/schemas/challenge.schema";
+import { ChallengeType } from "@app/challenges/enum/challenge-type.enum";
 
 @ObjectType()
 export class ChallengeObject {
@@ -21,6 +22,9 @@ export class ChallengeObject {
 
   @Field(() => String)
   iconUrl: string;
+
+  @Field(() => ChallengeType)
+  type: ChallengeType;
 
   @Field(() => Date)
   createdAt: Date;

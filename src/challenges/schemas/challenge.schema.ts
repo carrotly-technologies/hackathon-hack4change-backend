@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document, Types } from "mongoose";
+import { ChallengeType } from "@app/challenges/enum/challenge-type.enum";
 
 export type ChallengeDocument = Challenge & Document;
 
@@ -21,6 +22,14 @@ export class Challenge {
 
   @Prop({ type: String, required: true })
   iconUrl: string;
+
+  @Prop({
+    type: String,
+    enum: ChallengeType,
+    required: true,
+    default: ChallengeType.OWN,
+  })
+  type: ChallengeType;
 }
 
 export const ChallengeSchema = SchemaFactory.createForClass(Challenge);

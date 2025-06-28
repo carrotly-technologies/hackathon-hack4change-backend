@@ -8,6 +8,7 @@ import { ExampleColor } from "@app/example-module/enum/example-color.enum";
 import { ActivityType } from "@app/activity/enum/activity-type.enum";
 import { GraphqlActivityErrors } from "@app/activity/errors/graphql-activity-errors";
 import { GraphqlMarketplaceErrors } from "@app/marketplace/errors/graphql-marketplace-errors";
+import { ChallengeType } from "@app/challenges/enum/challenge-type.enum";
 
 export const Errors = {
   ...GqlCommonErrors,
@@ -23,4 +24,5 @@ export const registerEnums = () => {
 
   registerEnumType(ExampleColor, { name: "ExampleColor" });
   registerEnumType(ActivityType, { name: "ActivityType" });
+  registerEnumType(ChallengeType, { name: "ChallengeType" });
 };

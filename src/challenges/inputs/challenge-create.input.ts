@@ -1,4 +1,5 @@
 import { Field, InputType } from "@nestjs/graphql";
+import { ChallengeType } from "@app/challenges/enum/challenge-type.enum";
 
 @InputType()
 export class ChallengeCreateInput {
@@ -13,4 +14,7 @@ export class ChallengeCreateInput {
 
   @Field(() => String)
   iconUrl: string;
+
+  @Field(() => ChallengeType)
+  type: ChallengeType;
 }
