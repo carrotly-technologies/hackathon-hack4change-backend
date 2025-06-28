@@ -9,10 +9,4 @@ export class ActivityStartInput {
 
   @Field(() => ActivityType)
   activityType: ActivityType;
-
-  @Field(() => String)
-  description: string;
-
-  @Field(() => String)
-  name: string;
 }

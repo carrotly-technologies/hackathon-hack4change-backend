@@ -11,4 +11,10 @@ export class ActivityEndInput {
 
   @Field(() => [String])
   imageUrls: string[];
+
+  @Field(() => String, { nullable: true })
+  description?: string;
+
+  @Field(() => String, { nullable: true })
+  name?: string;
 }

@@ -234,6 +234,9 @@ const ACTIVITIES = [
   {
     _id: activityIds[0],
     userId: userIds[0],
+    isActive: false,
+    startTime: new Date("2025-06-15T08:00:00Z"),
+    endTime: new Date("2025-06-15T09:00:00Z"),
     durationTime: 3600, // 1 hour in seconds
     distance: 5.2, // km
     trashCount: 12,
@@ -260,6 +263,9 @@ const ACTIVITIES = [
   {
     _id: activityIds[1],
     userId: userIds[1],
+    isActive: false,
+    startTime: new Date("2025-06-16T14:00:00Z"),
+    endTime: new Date("2025-06-16T14:30:00Z"),
     durationTime: 1800, // 30 minutes
     distance: 2.1,
     trashCount: 5,
@@ -283,6 +289,9 @@ const ACTIVITIES = [
   {
     _id: activityIds[2],
     userId: userIds[2],
+    isActive: false,
+    startTime: new Date("2025-06-17T07:00:00Z"),
+    endTime: new Date("2025-06-17T07:45:00Z"),
     durationTime: 2700, // 45 minutes
     distance: 8.5,
     trashCount: 0,
@@ -303,6 +312,9 @@ const ACTIVITIES = [
   {
     _id: activityIds[3],
     userId: userIds[3],
+    isActive: false,
+    startTime: new Date("2025-06-18T06:30:00Z"),
+    endTime: new Date("2025-06-18T06:50:00Z"),
     durationTime: 1200, // 20 minutes
     distance: 3.2,
     trashCount: 8,
@@ -327,6 +339,9 @@ const ACTIVITIES = [
   {
     _id: activityIds[4],
     userId: userIds[4],
+    isActive: false,
+    startTime: new Date("2025-06-19T09:00:00Z"),
+    endTime: new Date("2025-06-19T10:30:00Z"),
     durationTime: 5400, // 1.5 hours
     distance: 12.3,
     trashCount: 15,
@@ -356,6 +371,9 @@ const ACTIVITIES = [
   {
     _id: activityIds[5],
     userId: userIds[0],
+    isActive: false,
+    startTime: new Date("2025-06-20T15:00:00Z"),
+    endTime: new Date("2025-06-20T15:15:00Z"),
     durationTime: 900, // 15 minutes
     distance: 1.8,
     trashCount: 3,
@@ -378,6 +396,9 @@ const ACTIVITIES = [
   {
     _id: activityIds[6],
     userId: userIds[1],
+    isActive: false,
+    startTime: new Date("2025-06-21T10:00:00Z"),
+    endTime: new Date("2025-06-21T11:00:00Z"),
     durationTime: 3600, // 1 hour
     distance: 15.7,
     trashCount: 0,
@@ -399,6 +420,9 @@ const ACTIVITIES = [
   {
     _id: activityIds[7],
     userId: userIds[2],
+    isActive: false,
+    startTime: new Date("2025-06-22T18:00:00Z"),
+    endTime: new Date("2025-06-22T18:40:00Z"),
     durationTime: 2400, // 40 minutes
     distance: 6.8,
     trashCount: 10,
@@ -424,6 +448,9 @@ const ACTIVITIES = [
   {
     _id: activityIds[8],
     userId: userIds[3],
+    isActive: false,
+    startTime: new Date("2025-06-23T16:00:00Z"),
+    endTime: new Date("2025-06-23T16:30:00Z"),
     durationTime: 1800, // 30 minutes
     distance: 4.2,
     trashCount: 7,
@@ -448,6 +475,9 @@ const ACTIVITIES = [
   {
     _id: activityIds[9],
     userId: userIds[4],
+    isActive: false,
+    startTime: new Date("2025-06-24T08:00:00Z"),
+    endTime: new Date("2025-06-24T10:00:00Z"),
     durationTime: 7200, // 2 hours
     distance: 18.5,
     trashCount: 20,

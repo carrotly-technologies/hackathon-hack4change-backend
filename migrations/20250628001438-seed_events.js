@@ -1,3 +1,14 @@
+const { ObjectId } = require('mongodb');
+
+// Generate ObjectIds for users to link to events
+const userIds = [
+  new ObjectId(),
+  new ObjectId(),
+  new ObjectId(),
+  new ObjectId(),
+  new ObjectId()
+];
+
 const EVENTS = [
   {
     name: "Community Garden Cleanup",
@@ -7,7 +18,7 @@ const EVENTS = [
     date: new Date("2025-06-15"),
     imageUrl: "https://picsum.photos/64/64",
     eventType: "ECOLOGICAL",
-    userIds: [],
+    userIds: [userIds[0].toString(), userIds[1].toString(), userIds[2].toString()],
   },
   {
     name: "Food Drive for Local Shelter",
@@ -17,7 +28,7 @@ const EVENTS = [
     date: new Date("2025-06-20"),
     imageUrl: "https://picsum.photos/64/64",
     eventType: "SOCIAL",
-    userIds: [],
+    userIds: [userIds[1].toString(), userIds[3].toString()],
   },
   {
     name: "River Cleanup Initiative",
@@ -27,7 +38,7 @@ const EVENTS = [
     date: new Date("2025-06-25"),
     imageUrl: "https://picsum.photos/64/64",
     eventType: "ECOLOGICAL",
-    userIds: [],
+    userIds: [userIds[0].toString(), userIds[2].toString(), userIds[4].toString()],
   },
   {
     name: "Senior Citizens Support Program",
@@ -37,7 +48,7 @@ const EVENTS = [
     date: new Date("2025-06-01"),
     imageUrl: "https://picsum.photos/64/64",
     eventType: "SOCIAL",
-    userIds: [],
+    userIds: [userIds[3].toString(), userIds[4].toString()],
   },
   {
     name: "Tree Planting Campaign",
@@ -47,7 +58,7 @@ const EVENTS = [
     date: new Date("2025-06-05"),
     imageUrl: "https://picsum.photos/64/64",
     eventType: "ECOLOGICAL",
-    userIds: [],
+    userIds: [userIds[0].toString(), userIds[1].toString(), userIds[3].toString(), userIds[4].toString()],
   },
   {
     name: "Homeless Shelter Volunteer Day",
@@ -57,7 +68,7 @@ const EVENTS = [
     date: new Date("2025-06-10"),
     imageUrl: "https://picsum.photos/64/64",
     eventType: "SOCIAL",
-    userIds: [],
+    userIds: [userIds[1].toString(), userIds[2].toString()],
   },
   {
     name: "Beach Cleanup Day",
@@ -67,7 +78,7 @@ const EVENTS = [
     date: new Date("2025-06-15"),
     imageUrl: "https://picsum.photos/64/64",
     eventType: "ECOLOGICAL",
-    userIds: [],
+    userIds: [userIds[2].toString(), userIds[4].toString()],
   },
   {
     name: "Youth Mentorship Program",
@@ -77,7 +88,7 @@ const EVENTS = [
     date: new Date("2025-06-20"),
     imageUrl: "https://picsum.photos/64/64",
     eventType: "SOCIAL",
-    userIds: [],
+    userIds: [userIds[0].toString(), userIds[3].toString()],
   },
   {
     name: "Urban Composting Workshop",
@@ -87,7 +98,7 @@ const EVENTS = [
     date: new Date("2025-06-25"),
     imageUrl: "https://picsum.photos/64/64",
     eventType: "ECOLOGICAL",
-    userIds: [],
+    userIds: [userIds[1].toString(), userIds[2].toString(), userIds[3].toString()],
   },
   {
     name: "Community Kitchen Volunteer Day",
@@ -97,7 +108,7 @@ const EVENTS = [
     date: new Date("2025-06-30"),
     imageUrl: "https://picsum.photos/64/64",
     eventType: "SOCIAL",
-    userIds: [],
+    userIds: [userIds[0].toString(), userIds[4].toString()],
   },
 ];
 

@@ -40,11 +40,11 @@ export class Activity {
   @Prop({ type: String, enum: ActivityType, required: true })
   activityType: ActivityType;
 
-  @Prop({ type: String, required: true })
-  description: string;
+  @Prop({ type: String })
+  description?: string;
 
-  @Prop({ type: String, required: true })
-  name: string;
+  @Prop({ type: String })
+  name?: string;
 
   @Prop({ type: [String], default: [] })
   imageUrls: string[];

@@ -42,8 +42,6 @@ export class ActivityRepository {
   async startActivity(input: {
     userId: string;
     activityType: string;
-    description: string;
-    name: string;
   }): Promise<ActivityDocument> {
     const activity = new this.activityModel({
       ...input,

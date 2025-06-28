@@ -51,11 +51,11 @@ export class ActivityObject {
   @Field(() => ActivityType)
   activityType: ActivityType;
 
-  @Field(() => String)
-  description: string;
+  @Field(() => String, { nullable: true })
+  description?: string;
 
-  @Field(() => String)
-  name: string;
+  @Field(() => String, { nullable: true })
+  name?: string;
 
   @Field(() => [String])
   imageUrls: string[];
