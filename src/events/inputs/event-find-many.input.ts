@@ -16,6 +16,9 @@ export class EventFindManyInput {
   @Field(() => Date, { nullable: true })
   time?: Date;
 
+  @Field(() => Date, { nullable: true })
+  date?: Date;
+
   @Field(() => [EventType], { nullable: true })
   eventType?: EventType[];
 

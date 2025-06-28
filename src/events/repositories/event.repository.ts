@@ -41,11 +41,12 @@ export class EventRepository {
   }
 
   private serializeQuery(input: EventFindManyInput) {
-    const { name, eventType, place } = input || {};
+    const { name, date, eventType, place } = input || {};
     return input
       ? {
         $match: {
           ...(name && { name: { $regex: new RegExp(name, "i") } }),
+          ...(date && { date: { $eq: new Date(date) } }),
           ...(place && { place: { $regex: new RegExp(place, "i") } }),
           ...(eventType && { eventType: { $in: eventType } }),
         },
@@ -77,12 +78,13 @@ export class EventRepository {
   }
 
   private serializeSortQuery(sort: EventFindManySortInput) {
-    const { name, time, eventType, createdAt, updatedAt } = sort || {};
+    const { name, time, date, eventType, createdAt, updatedAt } = sort || {};
     return !Object.values(sort || {}).every((el) => el === undefined)
       ? {
         $sort: {
           ...(name && { name: name.direction }),
           ...(time && { time: time.direction }),
+          ...(date && { date: date.direction }),
           ...(eventType && { eventType: eventType.direction }),
           ...(createdAt && { createdAt: createdAt.direction }),
           ...(updatedAt && { updatedAt: updatedAt.direction }),

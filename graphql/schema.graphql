@@ -230,6 +230,7 @@ input EventCreateInput {
 }
 
 input EventFindManyInput {
+  date: DateTime
   eventType: [EventType!]
   localization: LocalizationInput
   name: String
@@ -240,6 +241,7 @@ input EventFindManyInput {
 
 input EventFindManySortInput {
   createdAt: SortInput
+  date: SortInput
   eventType: SortInput
   name: SortInput
   time: SortInput
@@ -258,6 +260,7 @@ input EventInput {
 
 type EventObject {
   createdAt: DateTime!
+  date: DateTime!
   eventType: EventType!
   id: ObjectID!
   imageUrl: String!

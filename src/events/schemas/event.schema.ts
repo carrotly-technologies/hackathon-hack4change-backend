@@ -4,24 +4,6 @@ import { EventType } from '../enums/event-type.enum';
 
 export type EventDocument = Event & Document;
 
-@Schema()
-export class Localization {
-  @Prop({
-    type: {
-      latitude: { type: Number, required: true },
-      longitude: { type: Number, required: true }
-    },
-    required: true
-  })
-  coordinates: {
-    latitude: number;
-    longitude: number;
-  };
-
-  @Prop({ type: String, required: true })
-  name: string;
-}
-
 @Schema({ timestamps: true })
 export class Event {
   _id!: Types.ObjectId;
@@ -29,11 +11,17 @@ export class Event {
   @Prop({ type: String, required: true, unique: true })
   name: string;
 
-  @Prop({ type: Localization, required: true })
-  localization: Localization;
+  @Prop({ type: String, required: true })
+  place: string;
+
+  @Prop({ type: [Number], required: true })
+  localization: [number, number];
 
   @Prop({ type: Date, required: true })
   time: Date;
+
+  @Prop({ type: Date, required: true })
+  date: Date;
 
   @Prop({ type: String, default: 'https://picsum.photos/64/64' })
   imageUrl: string;
