@@ -556,6 +556,7 @@ input UserAddAwardInput {
 }
 
 type UserChallengeProgressObject {
+  challenge: ChallengeObject
   challengeId: ObjectID!
   completedAt: DateTime
   createdAt: DateTime!
