@@ -11,7 +11,7 @@ input ActivityCreateInput {
   name: String!
   path: [PathPointInput!]!
   points: Float!
-  trashCount: Float!
+  trashLocations: [PathPointInput!]!
 }
 
 input ActivityFindManyInput {
@@ -312,6 +312,12 @@ type LeaderboardEntryObject {
   totalPoints: Float!
 }
 
+input LeaderboardFindInput {
+  endDate: DateTime
+  limit: Int! = 10
+  startDate: DateTime
+}
+
 input LocalizationInput {
   coordinates: [Float!]!
   name: String!
@@ -390,8 +396,10 @@ type Query {
   example(input: ExampleInput!): ExampleObject!
   examples(input: ExampleFindManyInput!, pagination: PaginationInput!, sort: ExampleFindManySortInput!): ExamplePaginationResponse!
 
-  """Get top users by total points (activities + challenges)"""
-  leaderboard(limit: Int! = 10): [LeaderboardEntryObject!]!
+  """
+  Get top users by total points (activities + challenges) with optional date filtering
+  """
+  leaderboard(input: LeaderboardFindInput!): [LeaderboardEntryObject!]!
   minioTest: String!
   user(input: UserInput!): UserObject
   users(input: UserFindManyInput!, pagination: PaginationInput!, sort: UserFindManySortInput!): UserPaginationResponse!

@@ -19,7 +19,10 @@ export class ActivityRepository {
   ) {}
 
   async create(input: ActivityCreateInput): Promise<ActivityDocument> {
-    const activity = new this.activityModel(input);
+    const activity = new this.activityModel({
+      ...input,
+      trashCount: input.trashLocations.length,
+    });
     return activity.save();
   }
 

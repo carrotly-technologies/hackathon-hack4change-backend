@@ -18,8 +18,8 @@ export class ActivityCreateInput {
   @Field(() => Number)
   distance: number;
 
-  @Field(() => Number)
-  trashCount: number;
+  /* @Field(() => Number)
+  trashCount: number; */
 
   @Field(() => Number)
   points: number;
@@ -38,4 +38,7 @@ export class ActivityCreateInput {
 
   @Field(() => [PathPointInput])
   path: PathPointInput[];
+
+  @Field(() => [PathPointInput])
+  trashLocations: PathPointInput[];
 }

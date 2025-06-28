@@ -42,6 +42,9 @@ export class Activity {
 
   @Prop({ type: [{ lat: String, lon: String }], required: true })
   path: PathPoint[];
+
+  @Prop({ type: [{ lat: String, lon: String }], required: true })
+  trashLocations: PathPoint[];
 }
 
 export const ActivitySchema = SchemaFactory.createForClass(Activity);
