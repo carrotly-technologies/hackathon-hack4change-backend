@@ -9,6 +9,7 @@ import {
   Query,
   HttpCode,
   HttpStatus,
+  Logger,
 } from "@nestjs/common";
 import { ActivityService } from "@app/activity/services/activity.service";
 import { UserService } from "@app/user/services/user.service";
@@ -37,6 +38,7 @@ export class ActivityController {
 
   @Get(":id")
   async getActivity(@Param("id") id: string): Promise<ActivityObject | null> {
+    Logger.log("getActivity", id);
     return this.activityService.findById(id);
   }
 
@@ -44,11 +46,13 @@ export class ActivityController {
   async getActivityStarted(
     @Param("userId") userId: string,
   ): Promise<ActivityObject | null> {
+    Logger.log("getActivityStarted", userId);
     return this.activityService.findActiveByUserId(userId);
   }
 
   @Get("trash-map")
   async getActivitiesThrashMap(): Promise<PathPointObject[]> {
+    Logger.log("getActivitiesThrashMap");
     return await this.activityService.thrashMap();
   }
 
@@ -58,6 +62,7 @@ export class ActivityController {
     @Query() sort: ActivityFindManySortInput,
     @Query() pagination: PaginationInput,
   ): Promise<ActivityPaginationResponse> {
+    Logger.log("getActivities", filter, sort, pagination);
     return this.activityService.findMany(filter, sort, pagination);
   }
 
@@ -66,6 +71,7 @@ export class ActivityController {
   async createActivity(
     @Body() input: ActivityCreateInput,
   ): Promise<ActivityObject> {
+    Logger.log("createActivity", input);
     return this.activityService.create(input);
   }
 
@@ -73,11 +79,13 @@ export class ActivityController {
   async startActivity(
     @Body() input: ActivityStartInput,
   ): Promise<ActivityObject> {
+    Logger.log("startActivity", input);
     return this.activityService.startActivity(input);
   }
 
   @Post("end")
   async endActivity(@Body() input: ActivityEndInput): Promise<ActivityObject> {
+    Logger.log("endActivity", input);
     return this.activityService.endActivity(input);
   }
 
@@ -85,6 +93,7 @@ export class ActivityController {
   async addScore(
     @Body() input: ActivityAddScoreInput,
   ): Promise<ActivityObject> {
+    Logger.log("addScore", input);
     return this.activityService.addScore(input);
   }
 
@@ -92,6 +101,7 @@ export class ActivityController {
   async addTrash(
     @Body() input: ActivityAddTrashInput,
   ): Promise<ActivityObject> {
+    Logger.log("addTrash", input);
     return this.activityService.addTrash(input);
   }
 
@@ -99,6 +109,7 @@ export class ActivityController {
   async addPathPoint(
     @Body() input: ActivityAddPathPointInput,
   ): Promise<ActivityObject> {
+    Logger.log("addPathPoint", input);
     return this.activityService.addPathPoint(input);
   }
 
@@ -107,6 +118,7 @@ export class ActivityController {
     @Param("id") id: string,
     @Body() input: ActivityUpdateInput,
   ): Promise<ActivityObject | null> {
+    Logger.log("updateActivity", id, input);
     return this.activityService.update(id, input);
   }
 
@@ -114,6 +126,7 @@ export class ActivityController {
   async deleteActivity(
     @Param("id") id: string,
   ): Promise<ActivityObject | null> {
+    Logger.log("deleteActivity", id);
     return this.activityService.delete(id);
   }
 
@@ -121,6 +134,7 @@ export class ActivityController {
   async getCurrentDuration(
     @Param("activityId") activityId: string,
   ): Promise<number | null> {
+    Logger.log("getCurrentDuration", activityId);
     return this.activityService.getCurrentDuration(activityId);
   }
 }
