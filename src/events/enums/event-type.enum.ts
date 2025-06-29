@@ -1,4 +1,4 @@
 export enum EventType {
-  ENVIRONMENTAL = "ENVIRONMENTAL",
+  ECOLOGICAL = "ECOLOGICAL",
   SOCIAL = "SOCIAL",
 }

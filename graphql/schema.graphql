@@ -310,7 +310,7 @@ type EventPaginationResponse {
 }
 
 enum EventType {
-  ENVIRONMENTAL
+  ECOLOGICAL
   SOCIAL
 }
 
