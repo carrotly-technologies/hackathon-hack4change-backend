@@ -295,7 +295,6 @@ type EventObject {
   eventType: EventType!
   id: ObjectID!
   imageUrl: String!
-  link: String
   localization: [Float!]!
   name: String!
   place: String!

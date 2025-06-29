@@ -1,4 +1,4 @@
 export enum EventType {
-  OWN = "OWN",
-  COMPANY = "COMPANY",
+  ENVIRONMENTAL = 'ENVIRONMENTAL',
+  SOCIAL = 'SOCIAL',
 }
