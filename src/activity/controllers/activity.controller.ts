@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException } from "@nestjs/common";
+import { Controller, Post, Body, HttpException, Logger } from "@nestjs/common";
 import { ActivityService } from "@app/activity/services/activity.service";
 import { ActivityObject } from "@app/activity/objects/activity.object";
 import {
@@ -17,6 +17,7 @@ export class ActivityController {
   async startActivity(
     @Body() input: REST_ActivityStartInput,
   ): Promise<ActivityObject> {
+    Logger.log("startActivity", input);
     try {
       return await this.activityService.startActivity(input);
     } catch (_: any) {
@@ -28,6 +29,7 @@ export class ActivityController {
   async endActivity(
     @Body() input: REST_ActivityEndInput,
   ): Promise<ActivityObject> {
+    Logger.log("endActivity", input);
     try {
       return await this.activityService.endActivity(input);
     } catch (_: unknown) {
@@ -39,6 +41,7 @@ export class ActivityController {
   async addScore(
     @Body() input: REST_ActivityAddScoreInput,
   ): Promise<ActivityObject> {
+    Logger.log("addScore", input);
     try {
       return await this.activityService.addScore(input);
     } catch (_: unknown) {
@@ -50,6 +53,7 @@ export class ActivityController {
   async addTrash(
     @Body() input: REST_ActivityAddTrashInput,
   ): Promise<ActivityObject> {
+    Logger.log("addTrash", input);
     try {
       return await this.activityService.addTrash(input);
     } catch (_: unknown) {
@@ -61,6 +65,7 @@ export class ActivityController {
   async addPathPoint(
     @Body() input: REST_ActivityAddPathPointInput,
   ): Promise<ActivityObject> {
+    Logger.log("addPathPoint", input);
     try {
       return await this.activityService.addPathPoint(input);
     } catch (_: unknown) {

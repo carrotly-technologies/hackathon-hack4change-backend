@@ -11,4 +11,4 @@ import { UserModule } from "@app/user/user.module";
   providers: [ActivityResolver, ActivityService, ActivityRepository],
   exports: [ActivityService],
 })
-export class ActivityModule { }
+export class ActivityModule {}
