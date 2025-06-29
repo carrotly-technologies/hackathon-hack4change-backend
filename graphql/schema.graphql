@@ -295,6 +295,7 @@ type EventObject {
   eventType: EventType!
   id: ObjectID!
   imageUrl: String!
+  link: String
   localization: [Float!]!
   name: String!
   place: String!
@@ -309,8 +310,8 @@ type EventPaginationResponse {
 }
 
 enum EventType {
-  COMPANY
-  OWN
+  ENVIRONMENTAL
+  SOCIAL
 }
 
 input EventUpdateInput {
