@@ -21,7 +21,7 @@ import { ActivityNotFoundError } from "@app/activity/errors/activity-not-found.e
 
 @Injectable()
 export class ActivityService {
-  constructor(private readonly activityRepository: ActivityRepository) {}
+  constructor(private readonly activityRepository: ActivityRepository) { }
 
   async create(input: ActivityCreateInput): Promise<ActivityObject> {
     const activity = await this.activityRepository.create(input);
@@ -59,9 +59,11 @@ export class ActivityService {
 
   async endActivity(input: ActivityEndInput): Promise<ActivityObject> {
     const activity = await this.activityRepository.findById(input.activityId);
+
     if (!activity) {
       throw new ActivityNotFoundError();
     }
+
     if (!activity.isActive) {
       throw new ActivityNotActiveError();
     }
@@ -73,6 +75,7 @@ export class ActivityService {
         imageUrls: input.imageUrls,
       },
     );
+
 
     if (!updatedActivity) {
       throw new ActivityNotFoundError();

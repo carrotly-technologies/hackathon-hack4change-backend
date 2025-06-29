@@ -7,12 +7,8 @@ import { UserModule } from "@app/user/user.module";
 
 @Module({
   imports: [forwardRef(() => UserModule)],
-  providers: [
-    ActivityResolver,
-    ActivityController,
-    ActivityService,
-    ActivityRepository,
-  ],
+  controllers: [ActivityController],
+  providers: [ActivityResolver, ActivityService, ActivityRepository],
   exports: [ActivityService],
 })
-export class ActivityModule {}
+export class ActivityModule { }
